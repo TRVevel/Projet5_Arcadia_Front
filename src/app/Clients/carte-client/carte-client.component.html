@@ -1,0 +1,24 @@
+<div class="block shadow">
+  <div class="carteClient">
+    <h3>Id: {{ customer.id }}</h3>
+    <p>Nom: {{ customer.name }}</p>
+    <p>Email: {{ customer.email }}</p>
+    <p>Téléphone: {{ customer.phone }}</p>
+    <p>Adresse: {{ customer.address }}</p>
+
+    <!-- Liste des commandes liées au client -->
+    <div *ngIf="orderList.length > 0">
+      <h4>Commandes:</h4>
+      <ul>
+          Commande ID: {{ customer.orders }}
+      </ul>
+    </div>
+
+    <div *ngIf="orderList.length === 0">
+      <p>Aucune commande trouvée pour ce client.</p>
+    </div>
+
+    <!-- Bouton de modification -->
+    <a href="" (click)="onModifierClick($event)" class="lienModifier">Modifier</a>
+  </div>
+</div>

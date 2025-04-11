@@ -1,0 +1,26 @@
+<div class="block shadow">
+<div class="carteCommande">
+    <p>Numéro de commande: {{order.id}}</p>
+    <div class="InfoProduit">
+    <p>Nom du produit: <a href="./produits" >{{productRelier?.name}}</a></p>
+    <p>Nombre en stock: {{productRelier?.stock}} </p>
+</div>
+<div class="InfoClient">
+    <p>Date de commande: {{order.createdAt}}</p>
+    <p>Nom du client:<a ref="./clients"> {{customerRelier?.name}}</a></p>
+    <p>Adresse de livraison:{{customerRelier?.address}}</p>
+    <p>Quantité commandé: {{order.quantity}}</p> 
+</div>
+<a href="" target="_blank" (click)="onModifierClick(
+    order.id, 
+    order.quantity, 
+    order.createdAt,
+    customerRelier?.id, 
+    customerRelier?.name,
+    customerRelier?.address,
+    productRelier?.id,
+    productRelier?.name,
+    $event
+    )" class="lienModifier">Modifier</a>
+</div>
+</div>

@@ -1,0 +1,110 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+    min-height: 100vh;
+    min-width: 100vw;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #333;
+}
+video {
+    opacity: 80%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index:-100;
+    padding: 0;
+    bottom:0;
+  }
+  header{
+    z-index: 20;
+    background-color: #333;
+    font-size: 0.8rem;
+    min-width: 100vw;
+    position: fixed;
+    padding: 0;
+    top:0;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+header>a{
+  color: white;
+  align-content: center;
+  background-color: grey;
+  text-decoration: none;
+  padding: 20px;
+  border: #333 solid 1px 0;
+}
+nav{
+    display: flex;
+}
+nav a{
+    color: white;
+    text-decoration: none;
+    padding: 20px;
+    background-color: grey; 
+    border-right: 1px solid #333; /* Bordure en haut */
+    border-left: 1px solid #333; /* Bordure en bas */
+}
+nav a:hover{
+  
+  background-color: rgb(200, 200, 200); 
+  
+}
+  .block {
+    margin: 0 10px;
+    position: relative;
+    width: auto;
+    height: 200x;
+    background-color: #333;
+    border-radius: 10px;
+  }
+  
+  .shadow:hover {
+    
+    &:before, &:after {
+      content:'';
+      position: absolute;
+      top:-2px;
+      left:-2px;
+      width:calc(100% + 4px);
+      height:calc(100% + 4px);
+      background: linear-gradient(
+        45deg, 
+        #ffffff, 
+        #000000,
+        #ffffff, 
+        #000000,
+        #ffffff, 
+        #000000,
+        #ffffff, 
+        #000000,
+        #ffffff
+      );
+      border-radius: 10px;
+      background-size: 400%;
+      z-index:-1;
+      animation: shadow 20s linear infinite;
+    }
+    
+    &:after {
+      top:-8px;
+      left:-8px;
+      width:calc(100% + 16px);
+      height:calc(100% + 16px);    
+      filter:blur(24px);
+      opacity:0.9;
+    }
+    
+  }
+  
+  @keyframes shadow {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 400% 0;
+    }
+  }

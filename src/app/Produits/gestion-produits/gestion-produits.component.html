@@ -1,0 +1,25 @@
+<header>
+  <h1><a href="./dashboard">Gestion des produits</a></h1>
+  <nav>
+    <a href="./game-form" (click)="onCreerClick($event)">Créer un produit</a>
+    <a href="./customers">Clients</a>
+    <a href="./games">Produits</a>
+    <a href="./orders">Commandes</a>
+    <a href="#">LogOut</a>
+  </nav>
+  <p>User: 1</p>
+</header>
+
+<main>
+  <div id="allCarte" *ngIf="productList.length; else loading">
+    <!-- Affichage des cartes produits -->
+    <app-carte-produit *ngFor="let product of productList" [product]="product"></app-carte-produit>
+  </div>
+  <ng-template #loading>
+    <p>Chargement...</p>
+  </ng-template>
+</main>
+
+<footer>
+  <p>&copy; Quentin, Mohammed, Amadou</p>
+</footer>

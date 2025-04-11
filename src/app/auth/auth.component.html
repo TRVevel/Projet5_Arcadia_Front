@@ -1,0 +1,61 @@
+<header><img src="assets/logoTest.png" alt="Logo" class="logo">ARCADIA</header>
+
+<main>
+  <div class="box">
+    <span class="borderLine"></span>
+    <div class="register-container">
+      <form (ngSubmit)="onSubmitRegister()" #registerForm="ngForm">
+        <h2>Inscription</h2>
+        <div class="form-group">
+          <input type="text" id="first-name" name="prenom" [(ngModel)]="registerData.prenom" class="form-control" required>
+          <label for="first-name">Prénom</label>
+          <i></i>
+        </div>
+        <div class="form-group">
+          <input type="text" id="last-name" name="nom" [(ngModel)]="registerData.nom" class="form-control" required>
+          <label for="last-name">Nom</label>
+          <i></i>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" name="email" [(ngModel)]="registerData.email" class="form-control" required>
+          <label for="email">Email</label>
+          <i></i>
+        </div>
+        <div class="form-group">
+          <input type="text" id="adress" name="adresse" [(ngModel)]="registerData.adresse" class="form-control" required>
+          <label for="adress">Adresse de livraison</label>
+          <i></i>
+        </div>
+        <div class="form-group">
+          <input type="password" id="password" name="password" [(ngModel)]="registerData.password" class="form-control" required>
+          <label for="password">Mot de passe</label>
+          <i></i>
+        </div>
+        <button type="submit" class="btn btn-success">S'inscrire</button>
+      </form>
+    </div>
+
+    <div class="login-container">
+      <form (ngSubmit)="onSubmitLogin()">
+        <h2>Connexion</h2>
+        <div class="form-group">
+          <input type="text" id="email" name="email" class="form-control" [(ngModel)]="loginData.email" required>
+          <label for="email">Email</label>
+          <i></i>
+        </div>
+        
+        <div class="form-group">
+          <input type="password" id="password" name="password" class="form-control" [(ngModel)]="loginData.password" required>
+          <label for="password">Mot de passe</label>
+          <i></i>
+        </div>
+        <div class="links">
+          <a href="#">Mot de passe oublié ?</a>
+        </div>              
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer><p>&copy; 2025 ARCADIA. Tous droits réservés.</p></footer>

@@ -1,0 +1,25 @@
+<header>
+    <h1><a href="./dashboard">Gestion des commandes</a></h1>
+    
+    <nav>
+      
+    <a href="./formulaire" (click)="onCreerClick($event)">Créer une commande</a>
+        <a href="./clients">Clients</a>
+        <a href="./produits">Produits</a>
+        <a href="./commandes">Commandes</a>
+        <a href="#">LogOut</a>
+    </nav>
+    <p>User: 1</p>
+</header>
+<main>
+    <div id="allCarte" *ngIf="orderList.length && productList.length && customerList.length; else loading">
+    <!-- Your existing content that depends on orderList and productList -->
+    <app-carte-commande *ngFor="let order of orderList" [order]="order" [product]="productList" [customer]="customerList"></app-carte-commande>
+  </div>
+  <ng-template #loading>
+    <p>Loading...</p>
+  </ng-template>
+</main>
+<footer>
+    <p>&copy; Quentin, Mohammed, Amadou</p>
+</footer>

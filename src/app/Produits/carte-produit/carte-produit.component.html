@@ -1,0 +1,21 @@
+<div class="block shadow">
+    <div class="carteProduit">
+      <p>Id du Produit: {{product.id}}</p>
+      <p>Nom du produit: {{product.name}}</p>
+      <p>Nombre en stock: {{product.stock}}</p>
+      <a 
+        href="" 
+        target="_blank" 
+        (click)="onModifierClick(
+          product.id, 
+          product.name, 
+          product.stock,
+          $event
+        )" 
+        class="lienModifier"
+      >
+        Modifier
+      </a>
+    </div>
+  </div>
+  
