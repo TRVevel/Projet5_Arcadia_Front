@@ -44,7 +44,7 @@ export class AuthComponent {
         next: (value) => {
           console.log('Connexion réussie :', value);
           localStorage.setItem('token', value.token);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         },
         error: (err) => {
           console.error('Erreur de connexion :', err);
