@@ -35,6 +35,7 @@ export class AuthComponent {
   
     if (email && password) {
       const authBody = { email, password };
+      console.log('Tentative de connexion avec :', authBody);
   
       const loginObservable = email.includes('@arcadia.')
         ? this.requeteApiService.staffLogin(authBody)
@@ -57,10 +58,16 @@ export class AuthComponent {
   
   onSubmitRegister(): void {
     const { prenom, nom, email, adresse, password } = this.registerData;
-  
+
     if (prenom && nom && email && adresse && password) {
-      const userToRegister = { prenom, nom, email, adresse, password };
-  
+      const userToRegister = {
+        first_name: prenom,
+        last_name: nom,
+        email,
+        adress: adresse,
+        password
+      };
+
       this.requeteApiService.customerRegister(userToRegister).subscribe({
         next: (response) => {
           console.log('Inscription réussie :', response);

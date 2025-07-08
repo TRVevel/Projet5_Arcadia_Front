@@ -1,0 +1,633 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', 'Lucida Sans', Arial, sans-serif;
+    background: linear-gradient(160deg, #CB40E3 0%, #25BEE1 100%);
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: #181a23;
+    color: #fff;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 12px rgba(37,190,225,0.10);
+}
+.logo {
+    height: 48px;
+    width: 48px;
+    object-fit: contain;
+    margin-right: 18px;
+}
+.brand-title {
+    color: #fff;
+    font-size: 2.1em;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 8px #2228;
+}
+
+/* Games List Container */
+.games-list {
+    max-width: 1400px;
+    margin: 110px auto 40px auto;
+    background: #181a23;
+    border-radius: 18px;
+    box-shadow: 0 0 32px 0 rgba(0,0,0,0.35);
+    padding: 40px 30px 30px 30px;
+    position: relative;
+    z-index: 1;
+}
+.games-list h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 36px;
+    letter-spacing: 0.1em;
+    font-weight: 900;
+    font-size: 2.3em;
+    text-shadow: 0 2px 8px #2228;
+}
+
+/* Grid for Cards */
+.games-list > div[ngif] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+@media (max-width: 1000px) {
+    .games-list > div[ngif] {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 700px) {
+    .games-list > div[ngif] {
+        grid-template-columns: 1fr;
+    }
+    .games-list {
+        padding: 15px 5px;
+    }
+    .game-card {
+        padding: 18px 8px;
+    }
+    header {
+        padding: 0 10px;
+        height: 60px;
+    }
+    .logo {
+        height: 36px;
+        width: 36px;
+    }
+    .brand-title {
+        font-size: 1.3em;
+    }
+    .games-list > div[style*="display: flex"] {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .games-list label {
+        font-size: 1em;
+    }
+    .games-list select {
+        font-size: 0.98em;
+        padding: 7px 12px;
+    }
+}
+
+/* Game Card */
+.games-list > div > .game-card {
+    width: 100%;
+}
+.game-card {
+    background: linear-gradient(120deg, #23243a 60%, #181a23 100%);
+    border-radius: 14px;
+    box-shadow: 0 2px 18px 0 rgba(37,190,225,0.10);
+    padding: 28px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    border-left: 8px solid rgb(203, 64, 227);
+    position: relative;
+    overflow: hidden;
+}
+.game-card:hover {
+    transform: translateY(-6px) scale(1.025);
+    box-shadow: 0 8px 32px 0 rgba(203, 64, 227, 0.18);
+    border-left: 8px solid #25BEE1;
+    background: linear-gradient(120deg, #233a24 40%, #25BEE1 100%);
+}
+.game-card h3 {
+    color: rgb(203, 64, 227);
+    font-size: 1.7em;
+    font-weight: 900;
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 8px #2228;
+    line-height: 1.2;
+}
+
+/* Platform Colors for Cards */
+.platform-playstation {
+    border-left: 8px solid #0070D1 !important;
+}
+.platform-playstation h3 {
+    color: #0070D1 !important;
+}
+.platform-xbox {
+    border-left: 8px solid #107C10 !important;
+}
+.platform-xbox h3 {
+    color: #107C10 !important;
+}
+.platform-pc {
+    border-left: 8px solid #25BEE1 !important;
+}
+.platform-pc h3 {
+    color: #25BEE1 !important;
+}
+.platform-nintendo {
+    border-left: 8px solid #E60012 !important;
+}
+.platform-nintendo h3 {
+    color: #E60012 !important;
+}
+.platform-default {
+    border-left: 8px solid rgb(203, 64, 227) !important;
+}
+.platform-default h3 {
+    color: rgb(203, 64, 227) !important;
+}
+
+
+
+/* On hover/focus, text becomes white (if supported) */
+select:focus option:hover,
+select option:checked {
+    color: #fff !important;
+}
+
+/* Filters */
+.games-list > div[style*="display: flex"] label {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.08em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.games-list select {
+    background: #23243a;
+    color: #25BEE1;
+    border: 2px solid #CB40E3;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 4px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px #2228;
+}
+/* Taille mini pour les selects et le bouton dropdown (pour "Xbox Series X") */
+.games-list select,
+.dropdown-btn {
+    min-width: 175px;
+    max-width: 800px;
+    box-sizing: border-box;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.games-list select:focus {
+    border-color: #25BEE1;
+    box-shadow: 0 0 0 2px #25BEE144;
+}
+.games-list option {
+    background: #181a23;
+    color: #CB40E3;
+    font-weight: 500;
+}
+
+/* Platform Colors for Select Options */
+option.platform-playstation {
+    color: #0070D1 !important;
+}
+option.platform-xbox {
+    color: #107C10 !important;
+}
+option.platform-pc {
+    color: #25BEE1 !important;
+}
+option.platform-nintendo {
+    color: #E60012 !important;
+}
+option.platform-default {
+    color: rgb(203, 64, 227) !important;
+}
+/* Search Bar */
+.search-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+.search-input {
+    width: 350px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 2px solid #CB40E3;
+    background: #23243a;
+    color: #25BEE1;
+    font-size: 1.08em;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px #2228;
+}
+.search-input:focus {
+    border-color: #25BEE1;
+    box-shadow: 0 0 0 2px #25BEE144;
+}
+
+/* Sensitive Filters Dropdown */
+.sensitive-filters {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.08em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+.sensitive-filters input[type="checkbox"] {
+    accent-color: #CB40E3;
+    width: 18px;
+    height: 18px;
+}
+.sensitive-filters label {
+    font-weight: 400;
+    font-size: 1em;
+}
+
+/* Dropdown for Sensitive Content */
+.sensitive-dropdown {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    min-width: 160px;
+}
+.dropdown-label {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.08em;
+    margin-bottom: 6px;
+    display: block;
+}
+.dropdown-btn {
+    background: #23243a;
+    color: #25BEE1;
+    border: 2px solid #CB40E3;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px #2228;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+    height: 40px;
+    margin-top: 4px;
+}
+.dropdown-btn .open {
+    transform: rotate(180deg);
+    transition: transform 0.2s;
+}
+.dropdown-content {
+    position: absolute;
+    left: 0;
+    top: 110%;
+    background: #181a23;
+    border: 2px solid #CB40E3;
+    border-radius: 8px;
+    min-width: 220px;
+    box-shadow: 0 8px 24px #222a;
+    padding: 12px 16px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.dropdown-content label {
+    color: #fff;
+    font-weight: 400;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.dropdown-content input[type="checkbox"] {
+    accent-color: #CB40E3;
+    width: 18px;
+    height: 18px;
+}
+
+/* Responsive for Dropdown */
+@media (max-width: 900px) {
+    .sensitive-dropdown {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .dropdown-btn {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+/* No games message */
+ng-template, .games-list p {
+    color: #fff;
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 30px;
+}
+
+/* Cards grid for fallback */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+@media (max-width: 1000px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 700px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Platform List and Device Sidebar */
+.platform-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+.platform-btn {
+    background: #23243a;
+    color: #25BEE1;
+    border: 2px solid #CB40E3;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
+}
+.platform-btn.platform-playstation { color: #0070D1; }
+.platform-btn.platform-xbox { color: #107C10; }
+.platform-btn.platform-pc { color: #25BEE1; }
+.platform-btn.platform-nintendo { color: #E60012; }
+.platform-btn.platform-default { color: rgb(203, 64, 227); }
+.platform-btn:hover, .platform-btn.selected {
+    color: #fff;
+    border-color: #25BEE1;
+    background: #181a23;
+}
+
+.device-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    background: #181a23;
+    box-shadow: -4px 0 24px #000a;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    animation: slideInSidebar 0.2s;
+}
+@keyframes slideInSidebar {
+    from { right: -340px; opacity: 0; }
+    to { right: 0; opacity: 1; }
+}
+.device-sidebar-content {
+    padding: 32px 24px 24px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.device-sidebar h4 {
+    color: #25BEE1;
+    margin-bottom: 18px;
+}
+.device-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.device-sidebar li {
+    margin-bottom: 10px;
+}
+.device-sidebar button {
+    width: 100%;
+    background: #23243a;
+    color: #25BEE1;
+    border: 2px solid #CB40E3;
+    border-radius: 8px;
+    padding: 8px 0;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.device-sidebar button.selected,
+.device-sidebar button:hover {
+    color: #fff;
+    border-color: #25BEE1;
+    background: #181a23;
+}
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+/* Inline Device Sidebar */
+.device-sidebar-inline {
+    position: absolute;
+    left: 180px; /* décalage à droite du bouton, ajustable */
+    top: 0;
+    background: #181a23;
+    border: 2px solid #CB40E3;
+    border-radius: 12px;
+    min-width: 220px;
+    box-shadow: 0 8px 24px #222a;
+    padding: 18px 16px 16px 16px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    animation: fadeInSidebar 0.18s;
+}
+@keyframes fadeInSidebar {
+    from { opacity: 0; transform: translateX(30px);}
+    to { opacity: 1; transform: translateX(0);}
+}
+.device-sidebar-inline .device-sidebar-content {
+    padding: 0;
+}
+.device-sidebar-inline h4 {
+    color: #25BEE1;
+    margin-bottom: 14px;
+    font-size: 1.1em;
+}
+.device-sidebar-inline ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.device-sidebar-inline li {
+    margin-bottom: 8px;
+}
+.device-sidebar-inline button {
+    width: 100%;
+    background: #23243a;
+    color: #25BEE1;
+    border: 2px solid #CB40E3;
+    border-radius: 8px;
+    padding: 7px 0;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.device-sidebar-inline button.selected,
+.device-sidebar-inline button:hover {
+    color: #fff;
+    border-color: #25BEE1;
+    background: #181a23;
+}
+.device-sidebar-inline .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+/* Custom Select Styles */
+.custom-select-group {
+  position: relative;
+  display: inline-block;
+}
+.custom-select {
+  position: relative;
+  width: 180px;
+}
+.custom-select-trigger {
+  background: #23243a;
+  color: #25BEE1;
+  border: 2px solid #CB40E3;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.custom-options {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: #181a23;
+  border: 2px solid #CB40E3;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px #222a;
+  z-index: 100;
+  margin-top: 2px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.custom-option {
+  padding: 8px 16px;
+  color: #25BEE1;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  /* Ajoute ces lignes : */
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+.custom-option.selected,
+.custom-option:hover {
+  background: #25BEE1;
+  color: #181a23;
+}
+.custom-options.device-options {
+    position: absolute;
+    left: 180px !important;
+    min-width: 180px;
+    background: #181a23;
+    border: 2px solid #CB40E3;
+    border-left: none;
+    border-radius: 0 8px 8px 8px;
+    box-shadow: 8px 0 24px #222a;
+    z-index: 9999;
+    margin-top: 0;
+    padding-top: 0;
+    /* SUPPRIME cette ligne : */
+    /* margin-left: -8px; */
+}
+
+.custom-options {
+  /* ...tes styles existants... */
+  padding-right: 12px; /* Ajoute ce padding pour créer une zone de "transition" invisible */
+}
+
+.custom-options .custom-option {
+  /* ...tes styles existants... */
+  border-radius: 0;
+}
+
+.custom-options .custom-option.selected,
+.custom-options .custom-option:hover {
+  background: #25BEE1;
+  color: #181a23;
+}
+.arrow {
+  margin-left: 8px;
+}

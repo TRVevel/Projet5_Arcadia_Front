@@ -8,103 +8,81 @@ import { Observable } from 'rxjs';
 export class RequetesApiService {
   constructor(private httpClient: HttpClient) { }
   private baseUrl = 'http://localhost:3000/api';
-  private token = localStorage.getItem("token")
+
+  private get token(): string | null {
+    return localStorage.getItem("token");
+  }
 
   private getHeaders(): HttpHeaders {
-    if (!this.token) {
+    const token = this.token;
+    if (!token) {
       throw new Error('No authentication token');
     }
     // Retourner un objet HttpHeaders
     return new HttpHeaders({
-      Authorization: `${this.token}`
+      Authorization: `${token}`
     });
   }
   
-  customerLogin(body:any){
-    return this.httpClient.post<any>((`${this.baseUrl}/auth/login`), body);
+  customerLogin(body: any) {
+    return this.httpClient.post<any>(`${this.baseUrl}/auth/login`, body, { withCredentials: true });
   }
-  customerRegister(body:any){
-    return this.httpClient.post<any>((`${this.baseUrl}/auth/register`), body);
+  customerRegister(body: any) {
+    return this.httpClient.post<any>(`${this.baseUrl}/auth/register`, body, { withCredentials: true });
   }
-  staffLogin(body:any){
-    return this.httpClient.post<any>((`${this.baseUrl}/auth/erp/login`), body);
+  staffLogin(body: any) {
+    return this.httpClient.post<any>(`${this.baseUrl}/auth/erp/login`, body, { withCredentials: true });
   }
-  staffRegister(body:any){
-    return this.httpClient.post<any>((`${this.baseUrl}/auth/erp/register`), body);
+  staffRegister(body: any) {
+    return this.httpClient.post<any>(`${this.baseUrl}/auth/erp/register`, body, { withCredentials: true });
   }
-  getCustomers(){
-   if(!this.token) {
-      throw new Error('No authentification');
-    }
-    const headers= this.getHeaders();
-    return this.httpClient.get<any>(`${this.baseUrl}/customers`, {headers});
+  getCustomers() {
+    const headers = this.getHeaders();
+    return this.httpClient.get<any>(`${this.baseUrl}/customers`, { headers, withCredentials: true });
   }
-  getProduct(){
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
-    const headers= this.getHeaders();
-    return this.httpClient.get<any>(`${this.baseUrl}/products`, {headers});
+  getGamesPlatform() {
+    const headers = this.getHeaders();
+    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms`, { headers, withCredentials: true });
   }
-  getOrders(){
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
-    const headers= this.getHeaders();
-    return this.httpClient.get<any>(`${this.baseUrl}/orders`, {headers});
+  getGamePlatformDetails(id: number) {
+    const headers = this.getHeaders();
+    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms/${id}`, { headers, withCredentials: true });
   }
-  getUsers(){
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
-    const headers= this.getHeaders();
-    return this.httpClient.get<any>(`${this.baseUrl}/users`, {headers});
+  getOrders() {
+    const headers = this.getHeaders();
+    return this.httpClient.get<any>(`${this.baseUrl}/orders`, { headers, withCredentials: true });
+  }
+  getUsers() {
+    const headers = this.getHeaders();
+    return this.httpClient.get<any>(`${this.baseUrl}/users`, { headers, withCredentials: true });
   }
 
   getOrderById(orderId: number): Observable<any> {
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
     const headers= this.getHeaders();
     return this.httpClient.get<any>(`${this.baseUrl}/orders/${orderId}`, {headers});
   }
 
   getCustomerById(customerId: number): Observable<any> {
-    if (!this.token) {
-      throw new Error('No authentication token');
-    }
     const headers= this.getHeaders();
     return this.httpClient.get<any>(`${this.baseUrl}/customers/${customerId}`, { headers });
   }
   
   getProductById(productId: number): Observable<any> {
-    if (!this.token) {
-      throw new Error('No authentication token');
-    }
     const headers= this.getHeaders();
     return this.httpClient.get<any>(`${this.baseUrl}/products/${productId}`, { headers });
   }
 
   createOrder(orderData: any): Observable<any> {
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
     const headers= this.getHeaders();
     return this.httpClient.post<any>(`${this.baseUrl}/orders`, orderData, {headers});
   }
 
   updateOrder(orderId: number, orderData: any): Observable<any> {
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
     const headers= this.getHeaders();
     return this.httpClient.put<any>(`${this.baseUrl}/orders/${orderId}`, orderData, {headers});
   }
 
   updateCustomerOrders(customerId: number, customer: any): Observable<any> {
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
     const headers= this.getHeaders();
     return this.httpClient.put(`${this.baseUrl}/customers/${customerId}`, customer, {headers});
   }
@@ -114,9 +92,6 @@ export class RequetesApiService {
     return this.httpClient.post<any>(`${this.baseUrl}/customers`, customerData, {headers});
   }
   updateCustomer(customerId: number, customer: any): Observable<any> {
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
     const headers= this.getHeaders();
     return this.httpClient.put(`${this.baseUrl}/customers/${customerId}`, customer, {headers});
   }
@@ -126,16 +101,10 @@ export class RequetesApiService {
     return this.httpClient.delete<any>(`${this.baseUrl}/customers/${customerId}`, {headers});
   }
   updateProductStock(productId: number, updatedProduct: any): Observable<any> {
-    if(!this.token) {
-      throw new Error('No authentification');
-    }
     const headers= this.getHeaders();
     return this.httpClient.put<any>(`${this.baseUrl}/products/${productId}`, updatedProduct, {headers});
   }
   deleteOrder(orderId: number): Observable<any> {
-    if (!this.token) {
-      throw new Error('No authentification');
-    }
     const headers= this.getHeaders();
     return this.httpClient.delete(`${this.baseUrl}/orders/${orderId}`, { headers });
   }
@@ -160,7 +129,8 @@ export class RequetesApiService {
 
   // Utilitaires
   private ensureToken(): void {
-    if (!this.token) {
+    const token = this.token;
+    if (!token) {
       throw new Error('No authentication token');
     }
   }

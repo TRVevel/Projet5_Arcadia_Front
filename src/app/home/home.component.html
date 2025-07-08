@@ -1,0 +1,104 @@
+<header>
+  <img src="assets/logoTest.png" alt="Logo" class="logo">
+  <span class="brand-title">ARCADIA</span>
+</header>
+<div class="games-list">
+  <h2>Liste des jeux</h2>
+
+  <!-- Barre de recherche -->
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange()"
+      placeholder="Rechercher un jeu..."
+      class="search-input"
+    />
+  </div>
+
+  <!-- Filtres -->
+  <div style="display: flex; gap: 24px; margin-bottom: 30px; flex-wrap: wrap; align-items: center;">
+    <label>
+      Plateforme :
+      <select [(ngModel)]="selectedPlatform" (change)="onPlatformChange()">
+        <option value="">Toutes</option>
+        <option *ngFor="let plat of availablePlatforms" [value]="plat">{{ plat }}</option>
+      </select>
+    </label>
+    <label *ngIf="availableDevices.length > 0">
+      Appareil :
+      <select [(ngModel)]="selectedDevice" (change)="onDeviceChange()">
+        <option value="">Tous</option>
+        <option *ngFor="let dev of availableDevices" [value]="dev">{{ dev }}</option>
+      </select>
+    </label>
+    <label>
+      PEGI :
+      <select [(ngModel)]="selectedPegi" (change)="onPegiChange()">
+        <option value="">Tous</option>
+        <option *ngFor="let pegi of availablePegis" [value]="pegi">{{ pegi }}</option>
+      </select>
+    </label>
+    <label>
+      Genre :
+      <select [(ngModel)]="selectedGenre" (change)="onGenreChange()">
+        <option value="">Tous</option>
+        <option *ngFor="let genre of availableGenres" [value]="genre">{{ genre }}</option>
+      </select>
+    </label>
+    <!-- Menu déroulant multi-choix pour contenu sensible -->
+    <div class="sensitive-dropdown" *ngIf="availableSensitive.length > 0">
+      <span class="dropdown-label">Contenu sensible :</span>
+      <button type="button" class="dropdown-btn" (click)="showSensitiveDropdown = !showSensitiveDropdown">
+        Masquer contenu sensible
+        <span [class.open]="showSensitiveDropdown">&#9660;</span>
+      </button>
+      <div class="dropdown-content" *ngIf="showSensitiveDropdown">
+        <label *ngFor="let sens of availableSensitive">
+          <input
+            type="checkbox"
+            [checked]="hiddenSensitive.includes(sens)"
+            (change)="toggleSensitive(sens, $event)"
+          />
+          {{ sens }}
+        </label>
+      </div>
+    </div>
+    <label>
+      Trier par :
+      <select [(ngModel)]="sortOption" (change)="onSortChange()">
+        <option value="">Aucun</option>
+        <option value="date-desc">Date la plus récente</option>
+        <option value="date-asc">Date la plus ancienne</option>
+        <option value="price-asc">Prix croissant</option>
+        <option value="price-desc">Prix décroissant</option>
+        <option value="alpha-asc">A → Z</option>
+        <option value="alpha-desc">Z → A</option>
+      </select>
+    </label>
+  </div>
+
+  <div *ngIf="filteredGamePlatData && filteredGamePlatData.length > 0; else noGames" class="cards-grid">
+    <div
+      *ngFor="let game of filteredGamePlatData"
+      class="game-card"
+      [ngClass]="getPlatformClass(game.details?.platform?.name || game.platform_id)"
+    >
+      <h3>{{ game.details?.game?.title || game.name || game.title || game.game_id }}</h3>
+      <p><strong>Plateforme :</strong> {{ game.details?.platform?.name || game.platform_id }}</p>
+      <p><strong>Appareils compatibles :</strong> {{ game.details?.game_platform?.compatible_device || game.compatible_devices }}</p>
+      <p><strong>Prix :</strong> {{ game.price }} €</p>
+      <p><strong>Genre :</strong> {{ game.details.game.genre }}</p>
+      <p><strong>PEGI :</strong> {{ game.details.game.pegi }}</p>
+      <p><strong>Contenu sensible :</strong> {{ game.details.game.sensitive_content }}</p>
+      <p><strong>Status :</strong> 
+        <span [ngClass]="{'status-ok': game.details.game.status, 'status-ko': !game.details.game.status}">
+          {{ game.details.game.status ? 'Disponible' : 'Indisponible' }}
+        </span>
+      </p>
+    </div>
+  </div>
+  <ng-template #noGames>
+    <p>Aucun jeu trouvé.</p>
+  </ng-template>
+</div>
