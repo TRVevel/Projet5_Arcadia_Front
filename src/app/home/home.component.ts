@@ -113,7 +113,9 @@ export class HomeComponent {
     this.filteredGamePlatData = this.gamePlatData.filter(g => {
       const platformMatch = (g.details?.platform?.name || g.platform_id) === this.selectedPlatform || this.selectedPlatform === '';
       const deviceMatch = (g.details?.game_platform?.compatible_device || g.compatible_devices) === this.selectedDevice || this.selectedDevice === '';
-      const pegiMatch = this.selectedPegi === '' || String(g.details?.game?.pegi) === this.selectedPegi;
+      const pegiMatch =
+        this.selectedPegi === '' ||
+        Number(g.details?.game?.pegi) === Number(this.selectedPegi);
       const genreMatch = this.selectedGenre === '' || g.details?.game?.genre === this.selectedGenre;
       const title = g.details?.game?.title || g.name || g.title || '';
       const searchMatch = this.searchTerm.trim() === '' || title.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
@@ -214,5 +216,38 @@ export class HomeComponent {
       case 'nintendo': return 'platform-nintendo';
       default: return 'platform-default';
     }
+  }
+
+  getPegiClass(pegi: string | number): string {
+    const n = Number(pegi);
+    if (n === 3 || n === 7) return 'pegi-green';
+    if (n === 12 || n === 16) return 'pegi-yellow';
+    if (n === 18) return 'pegi-red';
+    return '';
+  }
+
+  getGameImage(game: any): string {
+    // 1. Si une image existe, on l'utilise
+    const img = game.details?.game?.image || game.image;
+    if (img) return img;
+
+    // 2. Sinon, on choisit une image par défaut selon la plateforme
+    const platform = (game.details?.platform?.name || game.platform_id || '').toLowerCase();
+    switch (platform) {
+      case 'playstation':
+        return '../assets/platform-default-playstation.png';
+      case 'xbox':
+        return '../assets/platform-default-xbox.png';
+      case 'pc':
+        return '../assets/platform-default-pc.png';
+      case 'nintendo':
+        return '../assets/platform-default-nintendo.png';
+      default:
+        return '../assets/default_ofdefault.png';
+    }
+  }
+
+  onImageError(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/no-image.png';
   }
 }

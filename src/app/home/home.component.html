@@ -56,10 +56,12 @@
         <div class="platform-options" *ngIf="showDeviceDropdown">
           <div class="platform-option platform-default"
                [class.selected]="selectedDevice === ''"
+               [ngClass]="getPlatformClass(selectedPlatform)"
                (click)="selectDevice('')">Tous</div>
           <div *ngFor="let dev of availableDevices"
                class="platform-option"
                [class.selected]="selectedDevice === dev"
+               [ngClass]="getPlatformClass(selectedPlatform)"
                (click)="selectDevice(dev)">
             {{ dev }}
           </div>
@@ -83,6 +85,7 @@
                (click)="selectPegi('')">Tous</div>
           <div *ngFor="let pegi of availablePegis"
                class="platform-option"
+               [ngClass]="getPegiClass(pegi)"
                [class.selected]="selectedPegi == pegi"
                (click)="selectPegi(pegi)">
             {{ pegi }}
@@ -178,6 +181,12 @@
       class="game-card"
       [ngClass]="getPlatformClass(game.details?.platform?.name || game.platform_id)"
     >
+      <img
+        class="game-image"
+        [src]="getGameImage(game)"
+        [alt]="game.details?.game?.title || game.name || game.title || game.game_id"
+        (error)="onImageError($event)"
+      />
       <h3>{{ game.details?.game?.title || game.name || game.title || game.game_id }}</h3>
       <p><strong>Plateforme :</strong> {{ game.details?.platform?.name || game.platform_id }}</p>
       <p><strong>Appareils compatibles :</strong> {{ game.details?.game_platform?.compatible_device || game.compatible_devices }}</p>
@@ -193,6 +202,5 @@
     </div>
   </div>
   <ng-template #noGames>
-    <p>Aucun jeu trouvé.</p>
   </ng-template>
 </div>
