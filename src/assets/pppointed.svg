@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 80 800 720">
+  <g stroke-width="100" stroke="#25bee1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 222">
+    <line x1="400" y1="140" x2="400" y2="546.5" marker-end="url(#SvgjsMarker1594)"></line>
+  </g>
+  <defs>
+    <marker markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" viewBox="0 0 5 5" orient="auto" id="SvgjsMarker1594">
+      <polygon points="1.6666666666666667,5 0,2.5 1.6666666666666667,0 5,2.5" fill="#25bee1"></polygon>
+    </marker>
+  </defs>
+</svg>

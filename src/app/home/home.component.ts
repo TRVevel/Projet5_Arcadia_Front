@@ -14,6 +14,11 @@ import { FormsModule } from '@angular/forms';
 export class HomeComponent {
   gamePlatData: any[] = [];
   filteredGamePlatData: any[] = [];
+  showPlatformDropdown = false;
+  showDeviceDropdown = false;
+  showPegiDropdown = false;
+  showGenreDropdown = false;
+  showSortDropdown = false;
   selectedPlatform: string = '';
   selectedDevice: string = '';
   selectedPegi: string = '';
@@ -175,22 +180,39 @@ export class HomeComponent {
     this.onSensitiveChange();
   }
 
+  selectPlatform(plat: string) {
+    this.selectedPlatform = plat;
+    this.showPlatformDropdown = false;
+    this.onPlatformChange();
+  }
+  selectDevice(dev: string) {
+    this.selectedDevice = dev;
+    this.showDeviceDropdown = false;
+    this.onDeviceChange();
+  }
+  selectPegi(pegi: string) {
+    this.selectedPegi = pegi;
+    this.showPegiDropdown = false;
+    this.onPegiChange();
+  }
+  selectGenre(genre: string) {
+    this.selectedGenre = genre;
+    this.showGenreDropdown = false;
+    this.onGenreChange();
+  }
+  selectSort(sort: string) {
+    this.sortOption = sort;
+    this.showSortDropdown = false;
+    this.onSortChange();
+  }
+
   getPlatformClass(platform: string): string {
     switch ((platform || '').toLowerCase()) {
-      case 'playstation':
-        return 'platform-playstation';
-      case 'xbox':
-        return 'platform-xbox';
-      case 'pc':
-        return 'platform-pc';
-      case 'nintendo':
-        return 'platform-nintendo';
-      case 'steamdeck':
-        return 'platform-steamdeck';
-      case 'vr systems':
-        return 'platform-vr';
-      default:
-        return 'platform-default';
+      case 'playstation': return 'platform-playstation';
+      case 'xbox': return 'platform-xbox';
+      case 'pc': return 'platform-pc';
+      case 'nintendo': return 'platform-nintendo';
+      default: return 'platform-default';
     }
   }
 }

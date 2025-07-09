@@ -42,7 +42,7 @@ header {
 
 /* Games List Container */
 .games-list {
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 110px auto 40px auto;
     background: #181a23;
     border-radius: 18px;
@@ -62,18 +62,18 @@ header {
 }
 
 /* Grid for Cards */
-.games-list > div[ngif] {
+.cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
 }
 @media (max-width: 1000px) {
-    .games-list > div[ngif] {
+    .cards-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 @media (max-width: 700px) {
-    .games-list > div[ngif] {
+    .cards-grid {
         grid-template-columns: 1fr;
     }
     .games-list {
@@ -107,9 +107,6 @@ header {
 }
 
 /* Game Card */
-.games-list > div > .game-card {
-    width: 100%;
-}
 .game-card {
     background: linear-gradient(120deg, #23243a 60%, #181a23 100%);
     border-radius: 14px;
@@ -171,14 +168,6 @@ header {
     color: rgb(203, 64, 227) !important;
 }
 
-
-
-/* On hover/focus, text becomes white (if supported) */
-select:focus option:hover,
-select option:checked {
-    color: #fff !important;
-}
-
 /* Filters */
 .games-list > div[style*="display: flex"] label {
     color: #fff;
@@ -187,6 +176,7 @@ select option:checked {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    min-height: 70px;
 }
 .games-list select {
     background: #23243a;
@@ -200,10 +190,6 @@ select option:checked {
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px #2228;
-}
-/* Taille mini pour les selects et le bouton dropdown (pour "Xbox Series X") */
-.games-list select,
-.dropdown-btn {
     min-width: 175px;
     max-width: 800px;
     box-sizing: border-box;
@@ -222,22 +208,13 @@ select option:checked {
     font-weight: 500;
 }
 
-/* Platform Colors for Select Options */
-option.platform-playstation {
-    color: #0070D1 !important;
+
+/* On hover/focus, text becomes white (if supported) */
+select:focus option:hover,
+select option:checked {
+    color: #fff !important;
 }
-option.platform-xbox {
-    color: #107C10 !important;
-}
-option.platform-pc {
-    color: #25BEE1 !important;
-}
-option.platform-nintendo {
-    color: #E60012 !important;
-}
-option.platform-default {
-    color: rgb(203, 64, 227) !important;
-}
+
 /* Search Bar */
 .search-bar {
     width: 100%;
@@ -264,26 +241,6 @@ option.platform-default {
 }
 
 /* Sensitive Filters Dropdown */
-.sensitive-filters {
-    color: #fff;
-    font-weight: 600;
-    font-size: 1.08em;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 8px;
-}
-.sensitive-filters input[type="checkbox"] {
-    accent-color: #CB40E3;
-    width: 18px;
-    height: 18px;
-}
-.sensitive-filters label {
-    font-weight: 400;
-    font-size: 1em;
-}
-
-/* Dropdown for Sensitive Content */
 .sensitive-dropdown {
     position: relative;
     display: flex;
@@ -370,191 +327,30 @@ ng-template, .games-list p {
     margin-top: 30px;
 }
 
-/* Cards grid for fallback */
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+/* Platform Colors for Select Options */
+.games-list option.platform-playstation {
+    color: #0070D1 !important;
 }
-@media (max-width: 1000px) {
-    .cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.games-list option.platform-xbox {
+    color: #107C10 !important;
 }
-@media (max-width: 700px) {
-    .cards-grid {
-        grid-template-columns: 1fr;
-    }
+.games-list option.platform-pc {
+    color: #25BEE1 !important;
 }
-
-/* Platform List and Device Sidebar */
-.platform-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
+.games-list option.platform-nintendo {
+    color: #E60012 !important;
 }
-.platform-btn {
-    background: #23243a;
-    color: #25BEE1;
-    border: 2px solid #CB40E3;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
-}
-.platform-btn.platform-playstation { color: #0070D1; }
-.platform-btn.platform-xbox { color: #107C10; }
-.platform-btn.platform-pc { color: #25BEE1; }
-.platform-btn.platform-nintendo { color: #E60012; }
-.platform-btn.platform-default { color: rgb(203, 64, 227); }
-.platform-btn:hover, .platform-btn.selected {
-    color: #fff;
-    border-color: #25BEE1;
-    background: #181a23;
+.games-list option.platform-default {
+    color: rgb(203, 64, 227) !important;
 }
 
-.device-sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 320px;
-    height: 100vh;
-    background: #181a23;
-    box-shadow: -4px 0 24px #000a;
-    z-index: 2000;
-    display: flex;
-    flex-direction: column;
-    animation: slideInSidebar 0.2s;
-}
-@keyframes slideInSidebar {
-    from { right: -340px; opacity: 0; }
-    to { right: 0; opacity: 1; }
-}
-.device-sidebar-content {
-    padding: 32px 24px 24px 24px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-.device-sidebar h4 {
-    color: #25BEE1;
-    margin-bottom: 18px;
-}
-.device-sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.device-sidebar li {
-    margin-bottom: 10px;
-}
-.device-sidebar button {
-    width: 100%;
-    background: #23243a;
-    color: #25BEE1;
-    border: 2px solid #CB40E3;
-    border-radius: 8px;
-    padding: 8px 0;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-.device-sidebar button.selected,
-.device-sidebar button:hover {
-    color: #fff;
-    border-color: #25BEE1;
-    background: #181a23;
-}
-.close-btn {
-    position: absolute;
-    top: 12px;
-    right: 18px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 2em;
-    cursor: pointer;
-}
-
-/* Inline Device Sidebar */
-.device-sidebar-inline {
-    position: absolute;
-    left: 180px; /* décalage à droite du bouton, ajustable */
-    top: 0;
-    background: #181a23;
-    border: 2px solid #CB40E3;
-    border-radius: 12px;
-    min-width: 220px;
-    box-shadow: 0 8px 24px #222a;
-    padding: 18px 16px 16px 16px;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    animation: fadeInSidebar 0.18s;
-}
-@keyframes fadeInSidebar {
-    from { opacity: 0; transform: translateX(30px);}
-    to { opacity: 1; transform: translateX(0);}
-}
-.device-sidebar-inline .device-sidebar-content {
-    padding: 0;
-}
-.device-sidebar-inline h4 {
-    color: #25BEE1;
-    margin-bottom: 14px;
-    font-size: 1.1em;
-}
-.device-sidebar-inline ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.device-sidebar-inline li {
-    margin-bottom: 8px;
-}
-.device-sidebar-inline button {
-    width: 100%;
-    background: #23243a;
-    color: #25BEE1;
-    border: 2px solid #CB40E3;
-    border-radius: 8px;
-    padding: 7px 0;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-.device-sidebar-inline button.selected,
-.device-sidebar-inline button:hover {
-    color: #fff;
-    border-color: #25BEE1;
-    background: #181a23;
-}
-.device-sidebar-inline .close-btn {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 1.3em;
-    cursor: pointer;
-}
-
-/* Custom Select Styles */
-.custom-select-group {
+/* Platform Dropdown */
+.platform-dropdown {
   position: relative;
   display: inline-block;
 }
-.custom-select {
-  position: relative;
-  width: 180px;
-}
-.custom-select-trigger {
+
+.platform-trigger {
   background: #23243a;
   color: #25BEE1;
   border: 2px solid #CB40E3;
@@ -563,71 +359,101 @@ ng-template, .games-list p {
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
-  user-select: none;
+  min-width: 200px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 4px;
 }
-.custom-options {
+.platform-options {
   position: absolute;
   left: 0;
-  top: 100%;
+  top: 110%;
   background: #181a23;
   border: 2px solid #CB40E3;
   border-radius: 8px;
-  min-width: 180px;
+  min-width: 200px;
   box-shadow: 0 8px 24px #222a;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
   margin-top: 2px;
-  max-height: 300px;
-  overflow-y: auto;
 }
-.custom-option {
-  padding: 8px 16px;
-  color: #25BEE1;
+.platform-option {
+  padding: 10px 18px;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
-  /* Ajoute ces lignes : */
-  width: 100%;
-  box-sizing: border-box;
-  display: block;
+  color: #CB40E3;
 }
-.custom-option.selected,
-.custom-option:hover {
+.platform-option.selected,
+.platform-option:hover {
   background: #25BEE1;
-  color: #181a23;
+  color: #181a23 !important;
 }
-.custom-options.device-options {
-    position: absolute;
-    left: 180px !important;
-    min-width: 180px;
-    background: #181a23;
-    border: 2px solid #CB40E3;
-    border-left: none;
-    border-radius: 0 8px 8px 8px;
-    box-shadow: 8px 0 24px #222a;
-    z-index: 9999;
-    margin-top: 0;
-    padding-top: 0;
-    /* SUPPRIME cette ligne : */
-    /* margin-left: -8px; */
-}
-
-.custom-options {
-  /* ...tes styles existants... */
-  padding-right: 12px; /* Ajoute ce padding pour créer une zone de "transition" invisible */
-}
-
-.custom-options .custom-option {
-  /* ...tes styles existants... */
-  border-radius: 0;
-}
-
-.custom-options .custom-option.selected,
-.custom-options .custom-option:hover {
-  background: #25BEE1;
-  color: #181a23;
-}
+.platform-playstation { color: #0070D1 !important; }
+.platform-xbox { color: #107C10 !important; }
+.platform-pc { color: #25BEE1 !important; }
+.platform-nintendo { color: #E60012 !important; }
+.platform-default { color: rgb(203, 64, 227) !important; }
 .arrow {
   margin-left: 8px;
+}
+
+/* Filtres : alignement centré et responsive */
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.platform-filter-group,
+.device-filter-group,
+.pegi-filter-group,
+.genre-filter-group,
+.sort-filter-group,
+.sensitive-filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 180px;
+    margin: 0 4px;
+}
+
+.platform-label,
+.dropdown-label {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.08em;
+    margin-bottom: 6px;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+/* Supprime les lignes inutiles ou doublons dans le CSS existant :
+   - Retire les styles inline sur le conteneur des filtres dans le HTML.
+   - Garde uniquement ce bloc .filters-bar pour l’alignement.
+*/
+
+/* Responsive pour les filtres */
+@media (max-width: 900px) {
+    .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+    .platform-filter-group,
+    .device-filter-group,
+    .pegi-filter-group,
+    .genre-filter-group,
+    .sort-filter-group,
+    .sensitive-filter-group {
+        min-width: 0;
+        width: 100%;
+        align-items: stretch;
+    }
 }
