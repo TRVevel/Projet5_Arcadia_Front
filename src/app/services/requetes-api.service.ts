@@ -126,7 +126,9 @@ export class RequetesApiService {
     const headers= this.getHeaders();
     return this.httpClient.delete<any>(`${this.baseUrl}/products/${productId}`, { headers });
   }
-
+ deconnexion(): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/api/auth/logout`, {}, { withCredentials: true });
+  }
   // Utilitaires
   private ensureToken(): void {
     const token = this.token;

@@ -1,7 +1,13 @@
 <header>
-  <img src="assets/logoTest.png" alt="Logo" class="logo">
-  <span class="brand-title">ARCADIA</span>
+  <img src="assets/logoTest.png" alt="Logo" class="logo" (click)="onClickToHome()">
+  <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
+  <div class="userParam">
+    <button class="loginOrRegister" *ngIf="!isLoggedIn" (click)="clickLoginOrRegister()">Se connecter/S'inscrire</button>
+    <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
+    <button class="userProfile" *ngIf="isLoggedIn" (click)="clickProfil()"><i class="fas fa-user"></i></button>
+  </div>
 </header>
+
 <div class="games-list">
   <h2>Liste des jeux</h2>
 
@@ -175,9 +181,9 @@
   </div>
 
   <!-- Liste des jeux -->
-  <div *ngIf="filteredGamePlatData && filteredGamePlatData.length > 0; else noGames" class="cards-grid">
+  <div *ngIf="paginatedGames && paginatedGames.length > 0; else noGames" class="cards-grid">
     <div
-      *ngFor="let game of filteredGamePlatData"
+      *ngFor="let game of paginatedGames"
       class="game-card"
       [ngClass]="getPlatformClass(game.details?.platform?.name || game.platform_id)"
     >
@@ -194,7 +200,7 @@
       <p><strong>Genre :</strong> {{ game.details.game.genre }}</p>
       <p><strong>PEGI :</strong> {{ game.details.game.pegi }}</p>
       <p><strong>Contenu sensible :</strong> {{ game.details.game.sensitive_content }}</p>
-      <p><strong>Status :</strong> 
+      <p><strong>Status :</strong>
         <span [ngClass]="{'status-ok': game.details.game.status, 'status-ko': !game.details.game.status}">
           {{ game.details.game.status ? 'Disponible' : 'Indisponible' }}
         </span>
@@ -202,5 +208,25 @@
     </div>
   </div>
   <ng-template #noGames>
+    <p style="text-align:center; color:#fff; margin: 40px 0;">Aucun jeu trouvé.</p>
   </ng-template>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button
+      *ngFor="let page of getPages()"
+      [class.active]="currentPage === page"
+      (click)="setPage(page)">
+      {{ page }}
+    </button>
+  </div>
 </div>
+
+<div class="modal-overlay" *ngIf="lougoutVisible"></div>
+<section class="deconnexion">
+  <h2>Souhaitez-vous vous déconnecter ?</h2>
+  <div class="validation">
+    <button (click)="logout()">Oui</button>
+    <button (click)="clickCrossLougout()">Non</button>
+  </div>
+</section>

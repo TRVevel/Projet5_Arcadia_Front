@@ -13,29 +13,41 @@ main{
     justify-content: center;
     align-items: center;
 }
+/* Header */
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 70px;
-    background: linear-gradient(160deg, #CB40E3, #25BEE1 );
-    color: rgb(255, 255, 255);
-    padding: 20px;
-    z-index: 1000;
-}
-
-.header-container {
+    background: #181a23;
+    color: #fff;
+    padding: 0 40px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 12px rgba(37,190,225,0.10);
+}
+.logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 10px;
+}
+.brand-title {
+    color: #fff;
+    font-size: 2.1em;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 8px #2228;
 }
 
-header h2 {
-    z-index: 1;
-    margin: 0;
-    text-align: left;
+.logo:hover, .brand-title:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: transform 0.2s;
 }
+
 .box {
     position: relative;
     z-index: 1;

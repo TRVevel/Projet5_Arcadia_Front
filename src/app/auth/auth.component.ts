@@ -81,5 +81,7 @@ export class AuthComponent {
       console.log('Veuillez remplir tous les champs du formulaire.');
     }
   }
-  
+  onClickToHome(): void {
+    this.router.navigate(['/home']);
+  }
 }
