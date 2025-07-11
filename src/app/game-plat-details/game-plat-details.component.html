@@ -1,0 +1,39 @@
+<header>
+  <img src="/assets/logoTest.png" alt="Logo" class="logo" (click)="onClickToHome()">
+  <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
+  <div class="userParam">
+    <button class="loginOrRegister" *ngIf="!isLoggedIn" (click)="clickLoginOrRegister()">Se connecter/S'inscrire</button>
+    <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
+        <button class="basket" *ngIf="isLoggedIn"><i class="fa-solid fa-basket-shopping"></i></button>
+    <button class="userProfile" *ngIf="isLoggedIn" (click)="clickProfil()"><i class="fas fa-user"></i></button>
+  </div>
+</header>
+
+<div class="game-details-card" [ngClass]="getPlatformClass(game?.platform?.name || game?.platform_id)">
+  <img
+    class="game-image"
+    [src]="getGameImage(game)"
+    [alt]="game?.game?.title || game?.name || game?.title || game?.game_id"
+    (error)="onImageError($event)"
+  />
+  <h3>{{ game?.game?.title || game?.name || game?.title || game?.game_id }}</h3>
+  <p><strong>Description :</strong> {{ game?.game?.description || 'Aucune description.' }}</p>
+  <p><strong>Plateforme :</strong> {{ game?.platform?.name || game?.platform_id || 'NC' }}</p>
+  <p><strong>Appareils compatibles :</strong> {{ game?.game_platform?.compatible_device || game?.compatible_devices || 'NC' }}</p>
+  <p><strong>Prix :</strong> {{ game?.game_platform?.price !== undefined ? (game?.game_platform?.price + ' €') : 'NC' }}</p>
+  <p><strong>Genre :</strong> {{ game?.game?.genre || 'NC' }}</p>
+  <p><strong>Sous-Genre :</strong> {{ game?.game?.sub_genres }}</p>
+  <p><strong>PEGI :</strong>
+    <span [ngClass]="getPegiClass(game?.game?.pegi)">
+      {{ game?.game?.pegi || 'NC' }}
+    </span>
+  </p>
+  <p><strong>Contenu sensible :</strong> {{ game?.game?.sensitive_content || 'Aucun' }}</p>
+  <p><strong>Date de sortie :</strong> {{ game?.game_platform?.release_date ? (game?.game_platform?.release_date | date:'dd/MM/yyyy') : 'NC' }}</p>
+  <p><strong>Stock :</strong> {{ game?.game_platform?.stock !== undefined ? game?.game_platform?.stock : 'NC' }}</p>
+  <p><strong>Status :</strong>
+    <span [ngClass]="{'status-ok': game?.game_platform?.status, 'status-ko': !game?.game_platform?.status}">
+      {{ game?.game_platform?.status ? 'Disponible' : 'Indisponible' }}
+    </span>
+  </p>
+</div>

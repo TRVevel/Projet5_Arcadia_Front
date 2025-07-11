@@ -4,12 +4,18 @@
   <div class="userParam">
     <button class="loginOrRegister" *ngIf="!isLoggedIn" (click)="clickLoginOrRegister()">Se connecter/S'inscrire</button>
     <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
+    <button class="basket" *ngIf="isLoggedIn"><i class="fa-solid fa-basket-shopping"></i></button>
     <button class="userProfile" *ngIf="isLoggedIn" (click)="clickProfil()"><i class="fas fa-user"></i></button>
   </div>
 </header>
 
 <div class="games-list">
-  <h2>Liste des jeux</h2>
+  <div class="games-banner">
+    <img src="assets/BanArcadia.png" alt="Bannière promotionnelle" class="banner-img" />
+    <div class="banner-title-box">
+      <h2 class="banner-title">Liste des jeux</h2>
+    </div>
+  </div>
 
   <!-- Barre de recherche -->
   <div class="search-bar">
@@ -186,6 +192,7 @@
       *ngFor="let game of paginatedGames"
       class="game-card"
       [ngClass]="getPlatformClass(game.details?.platform?.name || game.platform_id)"
+      (click)="clickGamePlat(game.id || game.game_id)"
     >
       <img
         class="game-image"
@@ -204,7 +211,12 @@
         <span [ngClass]="{'status-ok': game.details.game.status, 'status-ko': !game.details.game.status}">
           {{ game.details.game.status ? 'Disponible' : 'Indisponible' }}
         </span>
-      </p>
+      </p><div class="quantity-box">
+        <button (click)="clickPlus($event, game)">+</button>
+        <span class="quantity-label">Quantité : {{game.quantity}} </span>
+        <button (click)="clickMinus($event, game)">-</button>
+      </div>
+      <button (click)="clickToBasket($event, game)" class="add-basket">Mettre dans le panier</button>
     </div>
   </div>
   <ng-template #noGames>

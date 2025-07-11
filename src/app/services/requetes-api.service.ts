@@ -41,12 +41,10 @@ export class RequetesApiService {
     return this.httpClient.get<any>(`${this.baseUrl}/customers`, { headers, withCredentials: true });
   }
   getGamesPlatform() {
-    const headers = this.getHeaders();
-    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms`, { headers, withCredentials: true });
+    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms`, { withCredentials: true });
   }
   getGamePlatformDetails(id: number) {
-    const headers = this.getHeaders();
-    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms/${id}`, { headers, withCredentials: true });
+    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms/${id}`, {  withCredentials: true });
   }
   getOrders() {
     const headers = this.getHeaders();
@@ -127,7 +125,7 @@ export class RequetesApiService {
     return this.httpClient.delete<any>(`${this.baseUrl}/products/${productId}`, { headers });
   }
  deconnexion(): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/api/auth/logout`, {}, { withCredentials: true });
+    return this.httpClient.post<any>(`${this.baseUrl}/auth/logout`, {}, { withCredentials: true });
   }
   // Utilitaires
   private ensureToken(): void {

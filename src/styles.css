@@ -13,7 +13,7 @@ video {
     left: 0;
     min-width: 100%;
     min-height: 100%;
-    z-index:-100;
+    z-index:0;
     padding: 0;
     bottom:0;
   }
@@ -23,7 +23,7 @@ video {
     font-size: 0.8rem;
     min-width: 100vw;
     position: fixed;
-    padding: 0;
+    padding: 0 40px;
     top:0;
     color: white;
     display: flex;

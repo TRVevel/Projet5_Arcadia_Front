@@ -48,6 +48,7 @@ export class HomeComponent {
     this.requeteApiService.getGamesPlatform().subscribe({
       next: (gamesPlat) => {
         this.gamePlatData = gamesPlat;
+        this.gamePlatData.forEach(g => g.quantity = 1); // <-- ici
         const detailRequests = gamesPlat.map((game: any) =>
           this.requeteApiService.getGamePlatformDetails(game.id)
         );
@@ -115,7 +116,7 @@ export class HomeComponent {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         this.isLoggedIn = false;
-        window.location.reload();
+        ;
       },
       error: (error) => {
         console.error("Erreur lors de la déconnexion :", error);
@@ -124,7 +125,7 @@ export class HomeComponent {
   }
   onClickToHome(): void {
     this.router.navigate(['/home']).then(() => {
-      window.location.reload();
+      ;
     });
   }
 
@@ -297,6 +298,28 @@ export class HomeComponent {
         return '../assets/default_ofdefault.png';
     }
   }
+  clickGamePlat(id: number) {
+    this.router.navigate(['/home/game-plat-details/', id]).then(() => {
+      ;
+    });
+  }
+  clickToBasket(event: Event, game: any) {
+    // Logique pour ajouter au panier
+    event.stopPropagation();
+    alert('Jeu ajouté au panier !');
+  }
+  clickPlus(event: Event, game: any) {
+    event.stopPropagation();
+    game.quantity++;
+  }
+  clickMinus(event: Event, game: any) {
+    event.stopPropagation();
+    if (game.quantity > 1) {
+      game.quantity--;
+    }
+  }
+  
+  // Gestion des erreurs d'image
 
   onImageError(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/no-image.png';
