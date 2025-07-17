@@ -3,10 +3,7 @@
   <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
   <div class="userParam">
     <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
-    <button class="basket" *ngIf="isLoggedIn"><i class="fa-solid fa-basket-shopping"></i></button>
-    <button class="userProfile" (click)="handleUserProfile()">
-      <i class="fas fa-user"></i>
-    </button>
+    <button class="basket" *ngIf="isLoggedIn" (click)="clickBasket()"><i class="fa-solid fa-basket-shopping"></i></button>
   </div>
 </header>
 
@@ -55,7 +52,7 @@
       </div>
       <div class="profil-field">
         <label>Téléphone :</label>
-        <input type="text" [(ngModel)]="user.telephone" name="telephone">
+        <input type="text" [(ngModel)]="user.phone" name="phone">
       </div>
       <div class="profil-field">
         <label>Mot de passe :</label>

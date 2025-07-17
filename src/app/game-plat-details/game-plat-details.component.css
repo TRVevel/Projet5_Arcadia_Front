@@ -58,15 +58,15 @@ header {
 .logout, .loginOrRegister, .basket, .userProfile {
   margin-right: 8px;
   background: transparent;
-  border: 2px solid #fcfcf0;
+  border: 2px solid #25BEE1;
   padding: 10px 15px;
   border-radius: 5px;
-  color: #fcfcf0;
+  color: #fff;
   cursor: pointer;
   transition: background 0.2s;
 }
 .userParam button:hover {
-  background-color: #88875bc5;
+  background-color: #cb40e3c3;
 }
 
 /* Game Details Card */

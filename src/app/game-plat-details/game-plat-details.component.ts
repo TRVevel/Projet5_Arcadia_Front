@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequetesApiService } from '../services/requetes-api.service';
+import { UtilsService } from '../services/utils.service'; // Ajout de l'import correct
 import { CommonModule } from '@angular/common';
 
-// Ajout de la fonction utilitaire pour lire le cookie
-function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : null;
-}
 
 @Component({
   selector: 'app-game-plat-details',
@@ -23,7 +19,8 @@ export class GamePlatDetailsComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private requeteApiService: RequetesApiService
+    private requeteApiService: RequetesApiService,
+    private utilsService: UtilsService // Injection du service utilitaire
   ) {}
 
   ngOnInit(): void {
@@ -40,23 +37,25 @@ export class GamePlatDetailsComponent {
     }
   }
 
-  // Méthodes header
+  // Méthodes header via UtilsService
   checkAuth(): void {
-    const token = getCookie('token');
-    this.isLoggedIn = !!token;
+    this.isLoggedIn = this.utilsService.checkAuth();
   }
-  handleUserProfile() {
-    if (this.isLoggedIn) {
-      this.router.navigate(['/profil']);
-    } else {
-      this.router.navigate(['/auth']);
-    }
+  handleUserProfile(): void {
+    this.utilsService.handleUserProfile(this.router, this.isLoggedIn);
   }
-  clickLougout() {
-    this.lougoutVisible = true;
+  clickLougout(): void {
+    this.lougoutVisible = this.utilsService.clickLougout();
+  }
+  clickCrossLougout(): void {
+    this.utilsService.clickCrossLougout();
+    this.lougoutVisible = false;
   }
   onClickToHome(): void {
-    this.router.navigate(['/home']);
+    this.utilsService.onClickToHome(this.router);
+  }
+  clickBasket() {
+    this.utilsService.clickBasket(this.router, this.isLoggedIn);
   }
 
   // Méthodes utilitaires d'affichage

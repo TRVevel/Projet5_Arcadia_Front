@@ -1,21 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UtilsService } from './utils.service'; // Assure-toi que le chemin est correct
 
-function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : null;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequetesApiService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    @Inject(UtilsService) private utilsService: UtilsService // Injection du service utilitaire
+  ) { }
   private baseUrl = 'http://localhost:3000/api';
 
   private get token(): string | null {
-    return getCookie('token');
+    return this.utilsService.getCookie('token'); // Utilisation de la méthode du service
   }
 
   private getHeaders(): HttpHeaders {

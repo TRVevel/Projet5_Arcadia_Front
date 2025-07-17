@@ -1,0 +1,10 @@
+<header>
+  <img src="/assets/LogoArca.png"  alt="Logo" class="logo" (click)="onClickToHome()">
+  <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
+  <div class="userParam">
+    <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
+    <button class="userProfile" (click)="handleUserProfile()">
+      <i class="fas fa-user"></i>
+    </button>
+  </div>
+</header>

@@ -4,6 +4,7 @@ import { RequetesApiService } from '../services/requetes-api.service';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { UtilsService } from '../services/utils.service'; // Ajout de l'import
 
 @Component({
   selector: 'app-home',
@@ -40,7 +41,8 @@ export class HomeComponent {
 
   constructor(
     private router: Router,
-    private requeteApiService: RequetesApiService
+    private requeteApiService: RequetesApiService,
+    private utilsService: UtilsService // Injection du service utilitaire
   ) {}
 
   ngOnInit(): void {
@@ -90,31 +92,24 @@ export class HomeComponent {
 
   // Auth & navigation
   checkAuth(): void {
-    const token = getCookie('token');
-    this.isLoggedIn = !!token;
+    this.isLoggedIn = this.utilsService.checkAuth();
   }
   handleUserProfile() {
-    if (this.isLoggedIn) {
-      this.router.navigate(['/profil']);
-    } else {
-      this.router.navigate(['/auth']);
-    }
+    this.utilsService.handleUserProfile(this.router, this.isLoggedIn);
   }
   clickLougout() {
     const deconnexion = document.querySelector(".deconnexion") as HTMLElement;
     deconnexion.style.display = "block";
-    this.lougoutVisible = true;
+    this.lougoutVisible = this.utilsService.clickLougout();
   }
   clickCrossLougout() {
-    const deconnexion = document.querySelector(".deconnexion") as HTMLElement;
-    deconnexion.style.display = "none";
+    this.utilsService.clickCrossLougout();
     this.lougoutVisible = false;
   }
   logout() {
     this.requeteApiService.deconnexion().subscribe({
       next: () => {
         alert("Déconnexion réussie");
-        // Supprimer le cookie token
         document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=strict";
         this.isLoggedIn = false;
       },
@@ -124,9 +119,10 @@ export class HomeComponent {
     });
   }
   onClickToHome(): void {
-    this.router.navigate(['/home']).then(() => {
-      ;
-    });
+    this.utilsService.onClickToHome(this.router);
+  }
+  clickBasket() {
+    this.utilsService.clickBasket(this.router, this.isLoggedIn);
   }
 
   // Filtres & changements

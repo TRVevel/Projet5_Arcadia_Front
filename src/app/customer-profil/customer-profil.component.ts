@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RequetesApiService } from '../services/requetes-api.service'; // Adjust the import path as needed
+import { RequetesApiService } from '../services/requetes-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
-function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : null;
-}
+import { UtilsService } from '../services/utils.service'; // Ajout de l'import
 
 @Component({
   selector: 'app-customer-profil',
@@ -15,7 +11,6 @@ function getCookie(name: string): string | null {
   templateUrl: './customer-profil.component.html',
   styleUrl: './customer-profil.component.css'
 })
-
 export class CustomerProfilComponent {
   user: any = null;
   orderHistory: any[] = [];
@@ -26,17 +21,17 @@ export class CustomerProfilComponent {
   constructor(
     public requetesApiService: RequetesApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private utilsService: UtilsService // Injection du service utilitaire
   ) {}
 
   ngOnInit(): void {
-    const token = getCookie('token');
     this.checkAuth();
 
     this.requetesApiService.getCustomerProfil().subscribe({
       next: (data) => {
         this.user = data.profil;
-        console.log('User profil:', this.user); // Ajout du console log
+        console.log('User profil:', this.user);
       },
       error: () => this.user = null
     });
@@ -48,28 +43,30 @@ export class CustomerProfilComponent {
   }
 
   onSubmit() {
-    // Appelle ton service pour mettre à jour les infos modifiables
     this.requetesApiService.updateCustomerProfil(this.user).subscribe({
       next: () => alert('Profil mis à jour !'),
       error: () => alert('Erreur lors de la mise à jour.')
     });
   }
-   // Méthodes header
+
+  // Méthodes header via UtilsService
   checkAuth(): void {
-    const token = getCookie('token');
-    this.isLoggedIn = !!token;
+    this.isLoggedIn = this.utilsService.checkAuth();
   }
   handleUserProfile() {
-    if (this.isLoggedIn) {
-      this.router.navigate(['/profil']);
-    } else {
-      this.router.navigate(['/auth']);
-    }
+    this.utilsService.handleUserProfile(this.router, this.isLoggedIn);
   }
   clickLougout() {
-    this.lougoutVisible = true;
+    this.lougoutVisible = this.utilsService.clickLougout();
+  }
+  clickCrossLougout() {
+    this.utilsService.clickCrossLougout();
+    this.lougoutVisible = false;
   }
   onClickToHome(): void {
     this.router.navigate(['/home']);
+  }
+  clickBasket() {
+    this.utilsService.clickBasket(this.router, this.isLoggedIn);
   }
 }

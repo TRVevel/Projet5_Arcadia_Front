@@ -5,6 +5,7 @@ import { GamePlatDetailsComponent } from './game-plat-details/game-plat-details.
 import { NotFoundComponent } from './not-found/not-found.component';
 import { Customer } from './models/Customer';
 import { CustomerProfilComponent } from './customer-profil/customer-profil.component';
+import { BasketComponent } from './basket/basket.component';
 
 export const routes: Routes = [
     {
@@ -21,6 +22,10 @@ export const routes: Routes = [
         path: 'home/game-plat-details/:id',
         component: GamePlatDetailsComponent
     },{
+        path: 'basket',
+        component: BasketComponent
+    },
+    {
         path: 'profil',
         component: CustomerProfilComponent
     },
