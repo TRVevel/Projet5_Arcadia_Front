@@ -3,6 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RequetesApiService } from '../services/requetes-api.service';
 import { CommonModule } from '@angular/common';
 
+// Ajout de la fonction utilitaire pour lire le cookie
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+}
+
 @Component({
   selector: 'app-game-plat-details',
   imports: [CommonModule],
@@ -36,14 +42,15 @@ export class GamePlatDetailsComponent {
 
   // Méthodes header
   checkAuth(): void {
-    const token = localStorage.getItem('token');
+    const token = getCookie('token');
     this.isLoggedIn = !!token;
   }
-  clickLoginOrRegister() {
-    this.router.navigate(['/auth']);
-  }
-  clickProfil() {
-    this.router.navigate(['/profil']);
+  handleUserProfile() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/profil']);
+    } else {
+      this.router.navigate(['/auth']);
+    }
   }
   clickLougout() {
     this.lougoutVisible = true;
@@ -84,7 +91,7 @@ export class GamePlatDetailsComponent {
       default: return '/assets/default_ofdefault.png';
     }
   }
-
+  
   onImageError(event: Event) {
     (event.target as HTMLImageElement).src = '/assets/no-image.png';
   }

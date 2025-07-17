@@ -13,13 +13,13 @@ video {
     left: 0;
     min-width: 100%;
     min-height: 100%;
-    z-index:0;
+    z-index:-1;
     padding: 0;
     bottom:0;
   }
   header{
     z-index: 20;
-    background-color: #333;
+    background: #181a23;
     font-size: 0.8rem;
     min-width: 100vw;
     position: fixed;

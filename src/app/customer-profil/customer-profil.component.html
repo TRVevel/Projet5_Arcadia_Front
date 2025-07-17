@@ -1,0 +1,92 @@
+<header>
+  <img src="/assets/LogoArca.png"  alt="Logo" class="logo" (click)="onClickToHome()">
+  <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
+  <div class="userParam">
+    <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
+    <button class="basket" *ngIf="isLoggedIn"><i class="fa-solid fa-basket-shopping"></i></button>
+    <button class="userProfile" (click)="handleUserProfile()">
+      <i class="fas fa-user"></i>
+    </button>
+  </div>
+</header>
+
+<div class="profil-container-wrapper" style="display: flex; gap: 32px; justify-content: center;">
+  <div class="profil-container">
+    <h2>Mon Profil</h2>
+    <form *ngIf="user" (ngSubmit)="onSubmit()">
+      <div class="profil-field">
+        <label>Date de création du compte :</label>
+        <input type="text" [value]="user.createdAt | date:'dd/MM/yyyy à HH:mm'" disabled>
+      </div>
+      <div class="profil-field">
+        <label>Prénom :</label>
+        <input type="text" [value]="user.first_name" disabled>
+      </div>
+      <div class="profil-field">
+        <label>Nom :</label>
+        <input type="text" [value]="user.last_name" disabled>
+      </div>
+      <div class="profil-field">
+        <label>Email :</label>
+        <input type="email" [value]="user.email" disabled>
+      </div>
+      <!-- Affiche la date si elle existe, sinon le champ calendrier -->
+      <div class="profil-field">
+        <label>Date de naissance :</label>
+        <ng-container *ngIf="user.birthdate && user.birthdate !== null; else editableBirthdate">
+          <input
+            type="text"
+            [value]="user.birthdate | date:'dd/MM/yyyy'"
+            disabled
+          >
+        </ng-container>
+        <ng-template #editableBirthdate>
+          <input
+            type="date"
+            [(ngModel)]="user.birthdate"
+            name="birthdate"
+            placeholder="Saisir votre date de naissance"
+          >
+        </ng-template>
+      </div>
+      <div class="profil-field">
+        <label>Adresse :</label>
+        <input type="text" [(ngModel)]="user.adress" name="adress">
+      </div>
+      <div class="profil-field">
+        <label>Téléphone :</label>
+        <input type="text" [(ngModel)]="user.telephone" name="telephone">
+      </div>
+      <div class="profil-field">
+        <label>Mot de passe :</label>
+        <input type="password" [(ngModel)]="user.password" name="password">
+      </div>
+      <button type="submit" class="profil-save-btn">Enregistrer les modifications</button>
+    </form>
+    <div *ngIf="!user" class="profil-error">
+      <p>Impossible de charger les informations utilisateur.</p>
+    </div>
+  </div>
+  <div class="order-history-container" style="background:rgba(24,26,35,0.95); border-radius:18px; box-shadow:0 4px 24px #0008; padding:32px 24px; color:#fff;">
+    <h2>Historique des commandes</h2>
+    <div *ngIf="orderHistory?.length; else noOrders">
+      <div *ngFor="let order of orderHistory" class="order-card" style="margin-bottom:18px; padding:12px; border-radius:8px; background:#23243a;">
+        <div><strong>Commande #{{order.id}}</strong></div>
+        <div>Date : {{order.date | date:'dd/MM/yyyy à HH:mm'}}</div>
+        <div>Total : {{order.total | currency:'EUR'}}</div>
+        <div>Statut : {{order.status}}</div>
+        <div *ngIf="order.items?.length">
+          <span>Articles :</span>
+          <ul>
+            <li *ngFor="let item of order.items">
+              {{item.name}} x{{item.quantity}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <ng-template #noOrders>
+      <p>Aucune commande trouvée.</p>
+    </ng-template>
+  </div>
+</div>

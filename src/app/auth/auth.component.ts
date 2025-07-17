@@ -44,7 +44,7 @@ export class AuthComponent {
       loginObservable.subscribe({
         next: (value) => {
           console.log('Connexion réussie :', value);
-          localStorage.setItem('token', value.token);
+          document.cookie = `token=${value.token}; path=/; secure; samesite=strict`;
           this.router.navigate(['/home']);
         },
         error: (err) => {

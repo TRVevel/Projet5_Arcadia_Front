@@ -90,14 +90,15 @@ export class HomeComponent {
 
   // Auth & navigation
   checkAuth(): void {
-    const token = localStorage.getItem('token');
+    const token = getCookie('token');
     this.isLoggedIn = !!token;
   }
-  clickLoginOrRegister() {
-    this.router.navigate(['/auth']);
-  }
-  clickProfil() {
-    this.router.navigate(['/profil']);
+  handleUserProfile() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/profil']);
+    } else {
+      this.router.navigate(['/auth']);
+    }
   }
   clickLougout() {
     const deconnexion = document.querySelector(".deconnexion") as HTMLElement;
@@ -113,10 +114,9 @@ export class HomeComponent {
     this.requeteApiService.deconnexion().subscribe({
       next: () => {
         alert("Déconnexion réussie");
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        // Supprimer le cookie token
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=strict";
         this.isLoggedIn = false;
-        ;
       },
       error: (error) => {
         console.error("Erreur lors de la déconnexion :", error);
@@ -127,13 +127,6 @@ export class HomeComponent {
     this.router.navigate(['/home']).then(() => {
       ;
     });
-  }
-  handleUserProfile() {
-    if (this.isLoggedIn) {
-      this.router.navigate(['/profil']);
-    } else {
-      this.router.navigate(['/auth']);
-    }
   }
 
   // Filtres & changements
@@ -332,3 +325,9 @@ export class HomeComponent {
     (event.target as HTMLImageElement).src = 'assets/no-image.png';
   }
 }
+
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+}
+

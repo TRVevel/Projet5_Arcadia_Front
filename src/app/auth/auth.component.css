@@ -37,8 +37,7 @@ header {
 }
 .brand-title {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 45%;
   color: #fff;
   font-size: 2.1em;
   font-weight: 900;
