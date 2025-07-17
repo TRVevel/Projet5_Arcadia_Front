@@ -26,19 +26,26 @@ header {
   align-items: center;
   z-index: 1000;
   box-shadow: 0 2px 12px rgba(37,190,225,0.10);
+  justify-content: space-between;
+}
+
+.brand-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 2.1em;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 8px #2228;
+  white-space: nowrap;
+  pointer-events: auto;
 }
 .logo {
   height: 60px;
   width: auto;
   object-fit: contain;
   margin-right: 10px;
-}
-.brand-title {
-  color: #fff;
-  font-size: 2.1em;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-shadow: 0 2px 8px #2228;
 }
 .logo:hover, .brand-title:hover {
   cursor: pointer;

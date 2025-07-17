@@ -26,6 +26,7 @@ header {
   align-items: center;
   z-index: 1000;
   box-shadow: 0 2px 12px rgba(37,190,225,0.10);
+  justify-content: space-between;
 }
 .logo {
   height: 60px;
@@ -34,11 +35,16 @@ header {
   margin-right: 10px;
 }
 .brand-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   color: #fff;
   font-size: 2.1em;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-shadow: 0 2px 8px #2228;
+  white-space: nowrap;
+  pointer-events: auto;
 }
 .logo:hover, .brand-title:hover {
   cursor: pointer;
@@ -249,7 +255,6 @@ header {
 .game-card:hover {
   transform: translateY(-6px) scale(1.025);
   box-shadow: 0 8px 32px 0 rgba(203, 64, 227, 0.18);
-  border-left: 8px solid #25BEE1;
   background: linear-gradient(120deg, #233a24 40%, #25BEE1 100%);
   cursor: pointer;
 }

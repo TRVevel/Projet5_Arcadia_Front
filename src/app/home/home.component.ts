@@ -128,6 +128,13 @@ export class HomeComponent {
       ;
     });
   }
+  handleUserProfile() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/profil']);
+    } else {
+      this.router.navigate(['/auth']);
+    }
+  }
 
   // Filtres & changements
   onPlatformChange() {
@@ -220,7 +227,7 @@ export class HomeComponent {
       .filter(g => (g.details?.platform?.name || g.platform_id) === this.selectedPlatform)
       .map(g => g.details?.game_platform?.compatible_device || g.compatible_devices)
       .filter(dev => !!dev && !seen.has(dev) && seen.add(dev));
-    this.selectedDevice = '';
+    // NE PAS remettre selectedDevice à '' ici !
   }
 
   // Sélections filtres

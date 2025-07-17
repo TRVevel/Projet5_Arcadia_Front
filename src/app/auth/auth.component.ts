@@ -59,6 +59,11 @@ export class AuthComponent {
   onSubmitRegister(): void {
     const { prenom, nom, email, adresse, password } = this.registerData;
 
+    if (email.includes('@arcadia.')) {
+      console.log('Inscription interdite avec une adresse @arcadia.');
+      return;
+    }
+
     if (prenom && nom && email && adresse && password) {
       const userToRegister = {
         first_name: prenom,
