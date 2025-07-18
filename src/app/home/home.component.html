@@ -244,3 +244,13 @@
     <button (click)="clickCrossLougout()">Non</button>
   </div>
 </section>
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Chargement...</p>
+</div>
+
+<!-- Le reste de ta page -->
+<div *ngIf="!isLoading">
+  <!-- Ton contenu habituel ici -->
+</div>

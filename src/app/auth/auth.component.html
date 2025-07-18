@@ -3,7 +3,12 @@
   <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
 </header>
 
-<main>
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Chargement...</p>
+</div>
+
+<main *ngIf="!isLoading">
   <div class="box">
     <span class="borderLine"></span>
     <div class="register-container">

@@ -4,7 +4,6 @@ import { RequetesApiService } from '../services/requetes-api.service';
 import { UtilsService } from '../services/utils.service'; // Ajout de l'import correct
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-game-plat-details',
   imports: [CommonModule],
@@ -15,6 +14,7 @@ export class GamePlatDetailsComponent {
   game: any;
   isLoggedIn = false;
   lougoutVisible = false;
+  isLoading = true; // Ajout du loader
 
   constructor(
     private route: ActivatedRoute,
@@ -25,15 +25,22 @@ export class GamePlatDetailsComponent {
 
   ngOnInit(): void {
     this.checkAuth();
+    this.isLoading = true;
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.requeteApiService.getGamePlatformDetails(Number(id)).subscribe({
         next: (game) => {
           this.game = game;
+          this.isLoading = false; // Stop loader après chargement
           console.log('Game details loaded for ID:', id, 'info:', this.game);
         },
-        error: () => this.router.navigate(['/home'])
+        error: () => {
+          this.isLoading = false; // Stop loader même en cas d'erreur
+          this.router.navigate(['/home']);
+        }
       });
+    } else {
+      this.isLoading = false;
     }
   }
 

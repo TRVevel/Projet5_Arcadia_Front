@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RequetesApiService } from '../services/requetes-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UtilsService } from '../services/utils.service'; // Ajout de l'import
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-customer-profil',
@@ -17,23 +17,28 @@ export class CustomerProfilComponent {
   game: any;
   isLoggedIn: boolean = false;
   lougoutVisible: boolean = false;
+  isLoading: boolean = true; // Loader
 
   constructor(
     public requetesApiService: RequetesApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private utilsService: UtilsService // Injection du service utilitaire
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
     this.checkAuth();
-
+    this.isLoading = true;
     this.requetesApiService.getCustomerProfil().subscribe({
       next: (data) => {
         this.user = data.profil;
         console.log('User profil:', this.user);
+        this.isLoading = false;
       },
-      error: () => this.user = null
+      error: () => {
+        this.user = null;
+        this.isLoading = false;
+      }
     });
 
     this.requetesApiService.getCustomerOrderHistory().subscribe({

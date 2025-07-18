@@ -9,7 +9,12 @@
   </div>
 </header>
 
-<div class="basket-container" style="display: flex; gap: 2rem; margin-top: 2rem;">
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Chargement...</p>
+</div>
+
+<div *ngIf="!isLoading" class="basket-container" style="display: flex; gap: 2rem; margin-top: 2rem;">
   <!-- Panier du client -->
   <div class="basket-list" style="flex: 1;">
     <h2>Votre panier</h2>

@@ -12,7 +12,7 @@ import { RequetesApiService } from '../services/requetes-api.service';
   styleUrl: './basket.component.css'
 })
 export class BasketComponent {
-
+  isLoading: boolean = true;
   isLoggedIn: boolean = false;
   lougoutVisible: boolean = false;
   basket: any[] = [];
@@ -31,10 +31,11 @@ export class BasketComponent {
     private requetesApiService: RequetesApiService
   ) {}
 
-  ngOnInit(): void {
-    this.checkAuth();
-    this.loadBasket();
-  }
+ngOnInit(): void {
+  this.checkAuth();
+  this.isLoading = true;
+  this.loadBasket();
+}
 
   checkAuth(): void {
     this.isLoggedIn = this.utilsService.checkAuth();
@@ -52,55 +53,62 @@ export class BasketComponent {
     this.utilsService.onClickToHome(this.router);
   }
 
-  loadBasket() {
-    this.requetesApiService.getBasket().subscribe({
-      next: (data) => {
-        console.log('Contenu du panier reçu :', data);
-        this.basket = Array.isArray(data) ? data : [];
-        this.basketTotal = this.basket.reduce((acc, item) => acc + parseFloat(item.total_price), 0);
-      },
-      error: () => {
-        this.basket = [];
-        this.basketTotal = 0;
-      }
-    });
-  }
+ loadBasket() {
+  this.isLoading = true;
+  this.requetesApiService.getBasket().subscribe({
+    next: (data) => {
+      console.log('Contenu du panier reçu :', data);
+      this.basket = Array.isArray(data) ? data : [];
+      this.basketTotal = this.basket.reduce((acc, item) => acc + parseFloat(item.total_price), 0);
+      this.isLoading = false;
+    },
+    error: () => {
+      this.basket = [];
+      this.basketTotal = 0;
+      this.isLoading = false;
+    }
+  });
+}
 
-  onPay() {
-    // Appel de la validation du panier via le service
-    this.requetesApiService.confirmBasket(
-      this.payment.cardName,
-      this.payment.cardNumber,
-      this.payment.expDate,
-      this.payment.cvc
-    ).subscribe({
-      next: (res) => {
-        alert('Paiement effectué ! Commande confirmée.');
-        this.loadBasket(); // Recharge le panier (qui doit être vidé côté back)
-        // Réinitialiser le formulaire
-        this.payment = {
-          cardName: '',
-          cardNumber: '',
-          expDate: '',
-          cvc: ''
-        };
-      },
-      error: (err) => {
-        alert('Erreur lors de la validation du panier.');
-        console.error(err);
-      }
-    });
-  }
+onPay() {
+  this.isLoading = true;
+  this.requetesApiService.confirmBasket(
+    this.payment.cardName,
+    this.payment.cardNumber,
+    this.payment.expDate,
+    this.payment.cvc
+  ).subscribe({
+    next: (res) => {
+      alert('Paiement effectué ! Commande confirmée.');
+      this.loadBasket();
+      this.payment = {
+        cardName: '',
+        cardNumber: '',
+        expDate: '',
+        cvc: ''
+      };
+      this.isLoading = false;
+    },
+    error: (err) => {
+      alert('Erreur lors de la validation du panier.');
+      console.error(err);
+      this.isLoading = false;
+    }
+  });
+}
 
-  deleteBasket(id: string) {
-    this.requetesApiService.deleteBasket(id).subscribe({
-      next: () => {
-        this.loadBasket(); // Recharge le panier après suppression
-      },
-      error: (err) => {
-        alert('Erreur lors de la suppression du panier.');
-        console.error(err);
-      }
-    });
+deleteBasket(id: string) {
+  this.isLoading = true;
+  this.requetesApiService.deleteBasket(id).subscribe({
+    next: () => {
+      this.loadBasket();
+      this.isLoading = false;
+    },
+    error: (err) => {
+      alert('Erreur lors de la suppression du panier.');
+      console.error(err);
+      this.isLoading = false;
+    }
+  });
   }
 }

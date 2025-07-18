@@ -38,6 +38,7 @@ export class HomeComponent {
   lougoutVisible = false;
   currentPage = 1;
   pageSize = 12;
+  isLoading: boolean = true;
 
   constructor(
     private router: Router,
@@ -46,11 +47,12 @@ export class HomeComponent {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.checkAuth();
     this.requeteApiService.getGamesPlatform().subscribe({
       next: (gamesPlat) => {
         this.gamePlatData = gamesPlat;
-        this.gamePlatData.forEach(g => g.quantity = 1); // <-- ici
+        this.gamePlatData.forEach(g => g.quantity = 1);
         const detailRequests = gamesPlat.map((game: any) =>
           this.requeteApiService.getGamePlatformDetails(game.id)
         );
@@ -78,14 +80,17 @@ export class HomeComponent {
               )
             ];
             this.updateAvailableDevices();
+            this.isLoading = false; // <-- Ajoute ceci ici
           },
           (err) => {
             console.error('Erreur lors de la récupération des détails :', err);
+            this.isLoading = false; // <-- Et ici aussi
           }
         );
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des jeux :', err);
+        this.isLoading = false; // <-- Et ici aussi
       }
     });
   }
