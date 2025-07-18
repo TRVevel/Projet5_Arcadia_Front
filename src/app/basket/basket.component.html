@@ -8,3 +8,58 @@
     </button>
   </div>
 </header>
+
+<div class="basket-container" style="display: flex; gap: 2rem; margin-top: 2rem;">
+  <!-- Panier du client -->
+  <div class="basket-list" style="flex: 1;">
+    <h2>Votre panier</h2>
+    <div *ngIf="basket && basket.length > 0; else emptyBasket">
+      <ul>
+        <li *ngFor="let item of basket">
+          <strong>Jeu #{{ item.game_platform_id }}</strong><br>
+          Quantité : {{ item.quantity }}<br>
+          Prix total : {{ item.total_price | currency:'EUR' }}<br>
+          <button (click)="deleteBasket(item.id)" style="margin-top: 0.5rem; background: #cb4040; border: none; color: #fff; border-radius: 4px; padding: 5px 12px; cursor: pointer;">
+            Annuler
+          </button>
+        </li>
+      </ul>
+      <div style="margin-top:1rem;">
+        <strong>
+          Total panier : {{ basketTotal | currency:'EUR' }}
+        </strong>
+      </div>
+    </div>
+    <ng-template #emptyBasket>
+      <p>Votre panier est vide.</p>
+    </ng-template>
+  </div>
+
+  <!-- Formulaire de paiement -->
+  <div class="payment-form" style="flex: 1;">
+    <h2>Paiement</h2>
+    <form #paymentForm="ngForm" (ngSubmit)="onPay()">
+      <div>
+        <label for="cardName">Nom sur la carte</label>
+        <input id="cardName" name="cardName" [(ngModel)]="payment.cardName" required>
+      </div>
+      <div>
+        <label for="cardNumber">Numéro de carte</label>
+        <input id="cardNumber" name="cardNumber" [(ngModel)]="payment.cardNumber" required maxlength="19" pattern="[0-9 ]*">
+      </div>
+      <div>
+        <label for="expDate">Date d'expiration</label>
+        <input id="expDate" name="expDate" [(ngModel)]="payment.expDate" required placeholder="MM/AA" maxlength="5">
+      </div>
+      <div>
+        <label for="cvc">CVC</label>
+        <input id="cvc" name="cvc" [(ngModel)]="payment.cvc" required maxlength="4" pattern="[0-9]*">
+      </div>
+      <button
+        type="submit"
+        [disabled]="!paymentForm.form.valid || !basket || basket.length === 0">
+        Payer
+      </button>
+    </form>
+  </div>
+</div>

@@ -300,9 +300,20 @@ export class HomeComponent {
     });
   }
   clickToBasket(event: Event, game: any) {
-    // Logique pour ajouter au panier
     event.stopPropagation();
-    alert('Jeu ajouté au panier !');
+    if (!this.isLoggedIn) {
+      this.utilsService.clickBasket(this.router, this.isLoggedIn);
+      return;
+    }
+    this.requeteApiService.createBasket(game.id || game.game_id, game.quantity || 1).subscribe({
+      next: () => {
+        alert('Jeu ajouté au panier !');
+      },
+      error: (err) => {
+        alert('Erreur lors de l\'ajout au panier.');
+        console.error(err);
+      }
+    });
   }
   clickPlus(event: Event, game: any) {
     event.stopPropagation();

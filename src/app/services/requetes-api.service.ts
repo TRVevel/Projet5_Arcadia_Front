@@ -63,6 +63,28 @@ export class RequetesApiService {
   getCustomerOrderHistory(): Observable<any[]> {
     return this.httpClient.get<any[]>(`${this.baseUrl}/customer/order_history`, { withCredentials: true });
   }
+  getBasket(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.httpClient.get<any>(`${this.baseUrl}/baskets`, { headers, withCredentials: true });
+  }
+  createBasket(game_platform_id: number, quantity: number): Observable<any> {
+    const headers = this.getHeaders();
+    const body = { game_platform_id, quantity };
+    return this.httpClient.post<any>(`${this.baseUrl}/baskets`, body, { headers, withCredentials: true });
+  }
+  deleteBasket(id: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.httpClient.delete<any>(`${this.baseUrl}/baskets/${id}`, { headers, withCredentials: true });
+  }
+  confirmBasket(card_name: string, card_number: string, card_expiry: string, card_cvc: string): Observable<any> {
+    const headers = this.getHeaders();
+    const body = { card_name, card_number, card_expiry, card_cvc };
+    return this.httpClient.post<any>(`${this.baseUrl}/baskets/confirm`, body, { headers, withCredentials: true });
+  }
+  getOrder(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.httpClient.get<any>(`${this.baseUrl}/orders`, { headers, withCredentials: true });
+  }
     // Utilitaires
   private ensureToken(): void {
     const token = this.token;

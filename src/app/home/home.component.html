@@ -213,9 +213,10 @@
           {{ game.details.game.status ? 'Disponible' : 'Indisponible' }}
         </span>
       </p><div class="quantity-box">
-        <button (click)="clickPlus($event, game)">+</button>
-        <span class="quantity-label">Quantité : {{game.quantity}} </span>
         <button (click)="clickMinus($event, game)">-</button>
+        <span class="quantity-label">Quantité : {{game.quantity}} </span>
+        <button (click)="clickPlus($event, game)">+</button>
+        
       </div>
       <button (click)="clickToBasket($event, game)" class="add-basket">Mettre dans le panier</button>
     </div>

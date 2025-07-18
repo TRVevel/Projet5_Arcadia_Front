@@ -503,6 +503,8 @@ header {
   margin-top: 12px;
 }
 .quantity-box button {
+  height: 40px;
+  width: 40px;
   background: #23243a;
   color: #25BEE1;
   border: 2px solid #CB40E3;

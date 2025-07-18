@@ -65,3 +65,102 @@ header {
 .userParam button:hover {
   background-color: #cb40e3c3;
 }
+.basket-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 100px;
+  padding: 2rem 4vw;
+  min-height: 60vh;
+}
+
+.basket-list, .payment-form {
+  background: rgba(24, 26, 35, 0.95);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 16px #2228;
+  min-width: 320px;
+  max-width: 500px;
+  flex: 1;
+}
+
+.basket-list h2, .payment-form h2 {
+  margin-bottom: 1.5rem;
+  color: #25BEE1;
+  font-size: 1.7em;
+  text-align: center;
+}
+
+.basket-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.basket-list li {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #25BEE1;
+  font-size: 1.1em;
+}
+
+.basket-list strong {
+  color: #CB40E3;
+}
+
+.payment-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.payment-form label {
+  font-weight: 600;
+  color: #25BEE1;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.payment-form input {
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  border: 1px solid #25BEE1;
+  background: #181a23;
+  color: #fff;
+  font-size: 1em;
+  width: 100%;
+  margin-bottom: 0.2rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.payment-form input:focus {
+  border: 1.5px solid #CB40E3;
+}
+
+.payment-form button[type="submit"] {
+  margin-top: 1rem;
+  background: linear-gradient(90deg, #CB40E3 0%, #25BEE1 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem 0;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.payment-form button[type="submit"]:hover:enabled {
+  background: linear-gradient(90deg, #25BEE1 0%, #CB40E3 100%);
+}
+
+@media (max-width: 900px) {
+  .basket-container {
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 1rem 2vw;
+  }
+  .basket-list, .payment-form {
+    max-width: 100%;
+    min-width: 100%;
+  }
+}
