@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequetesApiService } from '../services/requetes-api.service';
-import { UtilsService } from '../services/utils.service'; // Ajout de l'import correct
+import { UtilsService } from '../services/utils.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,13 +14,13 @@ export class GamePlatDetailsComponent {
   game: any;
   isLoggedIn = false;
   lougoutVisible = false;
-  isLoading = true; // Ajout du loader
+  isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private requeteApiService: RequetesApiService,
-    private utilsService: UtilsService // Injection du service utilitaire
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
@@ -31,11 +31,10 @@ export class GamePlatDetailsComponent {
       this.requeteApiService.getGamePlatformDetails(Number(id)).subscribe({
         next: (game) => {
           this.game = game;
-          this.isLoading = false; // Stop loader après chargement
-          console.log('Game details loaded for ID:', id, 'info:', this.game);
+          this.isLoading = false;
         },
         error: () => {
-          this.isLoading = false; // Stop loader même en cas d'erreur
+          this.isLoading = false;
           this.router.navigate(['/home']);
         }
       });
@@ -44,7 +43,7 @@ export class GamePlatDetailsComponent {
     }
   }
 
-  // Méthodes header via UtilsService
+  // --- Méthodes header via UtilsService ---
   checkAuth(): void {
     this.isLoggedIn = this.utilsService.checkAuth();
   }
@@ -61,11 +60,11 @@ export class GamePlatDetailsComponent {
   onClickToHome(): void {
     this.utilsService.onClickToHome(this.router);
   }
-  clickBasket() {
+  clickBasket(): void {
     this.utilsService.clickBasket(this.router, this.isLoggedIn);
   }
 
-  // Méthodes utilitaires d'affichage
+  // --- Méthodes utilitaires d'affichage ---
   getPlatformClass(platform: string): string {
     switch ((platform || '').toLowerCase()) {
       case 'playstation': return 'platform-playstation';
@@ -85,7 +84,6 @@ export class GamePlatDetailsComponent {
   }
 
   getGameImage(game: any): string {
-    // Correction : structure de l'objet retourné par l'API
     const img = game?.game?.image || game?.image;
     if (img) return img;
     const platform = (game?.platform?.name || game?.platform_id || '').toLowerCase();
@@ -97,8 +95,8 @@ export class GamePlatDetailsComponent {
       default: return '/assets/default_ofdefault.png';
     }
   }
-  
-  onImageError(event: Event) {
+
+  onImageError(event: Event): void {
     (event.target as HTMLImageElement).src = '/assets/no-image.png';
   }
 }

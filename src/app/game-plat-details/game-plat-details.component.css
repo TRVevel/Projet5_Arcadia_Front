@@ -1,4 +1,4 @@
-/* Reset & Base */
+/* ====== RESET & BASE ====== */
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +12,7 @@
   background: linear-gradient(160deg, #CB40E3 0%, #25BEE1 100%);
 } */
 
-/* Header */
+/* ====== HEADER ====== */
 header {
   position: fixed;
   top: 0;
@@ -28,7 +28,12 @@ header {
   box-shadow: 0 2px 12px rgba(37,190,225,0.10);
   justify-content: space-between;
 }
-
+.logo {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  margin-right: 10px;
+}
 .brand-title {
   position: absolute;
   left: 45%;
@@ -40,18 +45,10 @@ header {
   color: #fff;
   text-shadow: 0 2px 8px #2228;
   transition: transform 0.2s, background 0.2s, color 0.2s;
-  /* linear-gradient seulement au hover */
   background: none;
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
   background-clip: initial;
-}
-
-.logo {
-  height: 60px;
-  width: auto;
-  object-fit: contain;
-  margin-right: 10px;
 }
 .logo:hover, .brand-title:hover {
   cursor: pointer;
@@ -82,7 +79,7 @@ header {
   background-color: #cb40e3c3;
 }
 
-/* Game Details Card */
+/* ====== GAME DETAILS CARD ====== */
 .game-details-card {
   max-width: 700px;
   margin: 110px auto 40px auto;
@@ -120,7 +117,7 @@ header {
   font-weight: 700;
 }
 
-/* Game Image */
+/* ====== GAME IMAGE ====== */
 .game-image {
   width: 100%;
   max-width: 320px;
@@ -133,7 +130,7 @@ header {
   box-shadow: 0 2px 8px #2228;
 }
 
-/* Platform Colors */
+/* ====== PLATFORM COLORS ====== */
 .platform-playstation {
   border-left: 10px solid #0070D1 !important;
 }
@@ -155,7 +152,7 @@ header {
 }
 .platform-default h3 { color: rgb(203, 64, 227) !important; }
 
-/* PEGI Colors */
+/* ====== PEGI COLORS ====== */
 .pegi-green {
   color: #2ecc40 !important;
   padding-left: 4px;
@@ -169,7 +166,7 @@ header {
   padding-left: 4px;
 }
 
-/* Status */
+/* ====== STATUS ====== */
 .status-ok {
   color: #2ecc40;
   font-weight: bold;
@@ -179,7 +176,32 @@ header {
   font-weight: bold;
 }
 
-/* Responsive */
+/* ====== LOADING SPINNER ====== */
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24,26,35,0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.spinner {
+  border: 6px solid #25BEE1;
+  border-top: 6px solid #CB40E3;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+/* ====== RESPONSIVE ====== */
 @media (max-width: 900px) {
   .game-details-card {
     max-width: 98vw;
@@ -203,7 +225,6 @@ header {
     transform: translateX(-50%);
   }
 }
-
 @media (max-width: 600px) {
   .game-details-card {
     padding: 10px 2px;
@@ -223,7 +244,6 @@ header {
     transform: translateX(-50%);
   }
 }
-
 @media (max-width: 400px) {
   .game-details-card {
     padding: 4px 0;
@@ -232,27 +252,4 @@ header {
   .brand-title {
     font-size: 0.85em;
   }
-}
-.loading-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(24,26,35,0.95);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-.spinner {
-  border: 6px solid #25BEE1;
-  border-top: 6px solid #CB40E3;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
 }
