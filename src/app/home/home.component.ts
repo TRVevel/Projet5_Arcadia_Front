@@ -4,7 +4,7 @@ import { RequetesApiService } from '../services/requetes-api.service';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { UtilsService } from '../services/utils.service'; // Ajout de l'import
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-home',
@@ -13,89 +13,92 @@ import { UtilsService } from '../services/utils.service'; // Ajout de l'import
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  // Données et états
+  // --- État principal ---
   gamePlatData: any[] = [];
   filteredGamePlatData: any[] = [];
+  isLoading = true;
+  isLoggedIn = false;
+  lougoutVisible = false;
+
+  // --- Filtres & options ---
   showPlatformDropdown = false;
   showDeviceDropdown = false;
   showPegiDropdown = false;
   showGenreDropdown = false;
   showSortDropdown = false;
   showSensitiveDropdown = false;
+
   selectedPlatform = '';
   selectedDevice = '';
   selectedPegi = '';
   selectedGenre = '';
   sortOption = '';
+  searchTerm = '';
+  hiddenSensitive: string[] = [];
+
   availablePlatforms: string[] = [];
   availableDevices: string[] = [];
   availablePegis: string[] = [];
   availableGenres: string[] = [];
   availableSensitive: string[] = [];
-  hiddenSensitive: string[] = [];
-  searchTerm = '';
-  isLoggedIn = false;
-  lougoutVisible = false;
+
+  // --- Pagination ---
   currentPage = 1;
   pageSize = 12;
-  isLoading: boolean = true;
 
   constructor(
     private router: Router,
     private requeteApiService: RequetesApiService,
-    private utilsService: UtilsService // Injection du service utilitaire
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.checkAuth();
     this.requeteApiService.getGamesPlatform().subscribe({
-      next: (gamesPlat) => {
-        this.gamePlatData = gamesPlat;
-        this.gamePlatData.forEach(g => g.quantity = 1);
+      next: (gamesPlat: any[]) => {
+        this.gamePlatData = gamesPlat.map((g: any) => ({ ...g, quantity: 1 }));
         const detailRequests = gamesPlat.map((game: any) =>
           this.requeteApiService.getGamePlatformDetails(game.id)
         );
         forkJoin(detailRequests).subscribe(
-          (details) => {
-            (details as any[]).forEach((detail, idx) => {
+          (details: any[]) => {
+            details.forEach((detail, idx) => {
               this.gamePlatData[idx].details = detail;
             });
             this.filteredGamePlatData = [...this.gamePlatData];
             this.availablePlatforms = [
-              ...new Set(this.gamePlatData.map(g => g.details?.platform?.name || g.platform_id))
+              ...new Set(this.gamePlatData.map((g: any) => g.details?.platform?.name || g.platform_id))
             ];
             this.availablePegis = [
-              ...new Set(this.gamePlatData.map(g => g.details?.game?.pegi).filter(Boolean))
+              ...new Set(this.gamePlatData.map((g: any) => g.details?.game?.pegi).filter(Boolean))
             ].sort((a, b) => Number(b) - Number(a));
             this.availableGenres = [
-              ...new Set(this.gamePlatData.map(g => g.details?.game?.genre).filter(Boolean))
+              ...new Set(this.gamePlatData.map((g: any) => g.details?.game?.genre).filter(Boolean))
             ];
             this.availableSensitive = [
               ...new Set(
                 this.gamePlatData
-                  .map(g => g.details?.game?.sensitive_content)
+                  .map((g: any) => g.details?.game?.sensitive_content)
                   .filter(Boolean)
                   .flatMap((s: string) => s.split(',').map(x => x.trim()))
               )
             ];
             this.updateAvailableDevices();
-            this.isLoading = false; // <-- Ajoute ceci ici
+            this.isLoading = false;
           },
-          (err) => {
-            console.error('Erreur lors de la récupération des détails :', err);
-            this.isLoading = false; // <-- Et ici aussi
+          () => {
+            this.isLoading = false;
           }
         );
       },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des jeux :', err);
-        this.isLoading = false; // <-- Et ici aussi
+      error: () => {
+        this.isLoading = false;
       }
     });
   }
 
-  // Auth & navigation
+  // --- Auth & navigation ---
   checkAuth(): void {
     this.isLoggedIn = this.utilsService.checkAuth();
   }
@@ -117,9 +120,6 @@ export class HomeComponent {
         alert("Déconnexion réussie");
         document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=strict";
         this.isLoggedIn = false;
-      },
-      error: (error) => {
-        console.error("Erreur lors de la déconnexion :", error);
       }
     });
   }
@@ -130,7 +130,7 @@ export class HomeComponent {
     this.utilsService.clickBasket(this.router, this.isLoggedIn);
   }
 
-  // Filtres & changements
+  // --- Filtres & changements ---
   onPlatformChange() {
     this.selectedDevice = '';
     this.updateAvailableDevices();
@@ -143,7 +143,7 @@ export class HomeComponent {
   onSearchChange() { this.applyFilters(); }
   onSortChange() { this.applyFilters(); }
 
-  // Application des filtres et tri
+  // --- Application des filtres et tri ---
   applyFilters() {
     this.currentPage = 1;
     this.filteredGamePlatData = this.gamePlatData.filter(g => {
@@ -159,7 +159,6 @@ export class HomeComponent {
       return platformMatch && deviceMatch && pegiMatch && genreMatch && searchMatch && sensitiveMatch;
     });
 
-    // Tri
     switch (this.sortOption) {
       case 'date-desc':
         this.filteredGamePlatData.sort((a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
@@ -192,7 +191,7 @@ export class HomeComponent {
     this.updateAvailableDevices();
   }
 
-  // Pagination
+  // --- Pagination ---
   get totalPages(): number {
     return Math.ceil(this.filteredGamePlatData.length / this.pageSize) || 1;
   }
@@ -209,7 +208,7 @@ export class HomeComponent {
     return this.filteredGamePlatData.slice(start, start + this.pageSize);
   }
 
-  // Filtres dynamiques
+  // --- Filtres dynamiques ---
   updateAvailableDevices() {
     if (!this.selectedPlatform) {
       this.availableDevices = [];
@@ -221,10 +220,9 @@ export class HomeComponent {
       .filter(g => (g.details?.platform?.name || g.platform_id) === this.selectedPlatform)
       .map(g => g.details?.game_platform?.compatible_device || g.compatible_devices)
       .filter(dev => !!dev && !seen.has(dev) && seen.add(dev));
-    // NE PAS remettre selectedDevice à '' ici !
   }
 
-  // Sélections filtres
+  // --- Sélections filtres ---
   selectPlatform(plat: string) {
     this.selectedPlatform = plat;
     this.showPlatformDropdown = false;
@@ -260,7 +258,7 @@ export class HomeComponent {
     this.onSensitiveChange();
   }
 
-  // Utilitaires d'affichage
+  // --- Utilitaires d'affichage ---
   getPlatformClass(platform: string): string {
     switch ((platform || '').toLowerCase()) {
       case 'playstation': return 'platform-playstation';
@@ -280,11 +278,8 @@ export class HomeComponent {
   }
 
   getGameImage(game: any): string {
-    // 1. Si une image existe, on l'utilise
     const img = game.details?.game?.image || game.image;
     if (img) return img;
-
-    // 2. Sinon, on choisit une image par défaut selon la plateforme
     const platform = (game.details?.platform?.name || game.platform_id || '').toLowerCase();
     switch (platform) {
       case 'playstation':
@@ -299,10 +294,10 @@ export class HomeComponent {
         return '../assets/default_ofdefault.png';
     }
   }
+
+  // --- Actions sur les jeux ---
   clickGamePlat(id: number) {
-    this.router.navigate(['/home/game-plat-details/', id]).then(() => {
-      ;
-    });
+    this.router.navigate(['/home/game-plat-details/', id]);
   }
   clickToBasket(event: Event, game: any) {
     event.stopPropagation();
@@ -314,9 +309,8 @@ export class HomeComponent {
       next: () => {
         alert('Jeu ajouté au panier !');
       },
-      error: (err) => {
+      error: () => {
         alert('Erreur lors de l\'ajout au panier.');
-        console.error(err);
       }
     });
   }
@@ -330,16 +324,18 @@ export class HomeComponent {
       game.quantity--;
     }
   }
-  
-  // Gestion des erreurs d'image
 
+  // --- Gestion des erreurs d'image ---
   onImageError(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/no-image.png';
   }
 }
 
+// --- Utilitaire cookie (si utilisé ailleurs) ---
 function getCookie(name: string): string | null {
   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
   return match ? match[2] : null;
 }
+
+
 

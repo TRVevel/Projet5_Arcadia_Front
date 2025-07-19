@@ -10,8 +10,15 @@
   </div>
 </header>
 
+<!-- Loader toujours en haut -->
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Chargement...</p>
+</div>
+
 <div *ngIf="!isLoading">
   <div class="games-list">
+    <!-- Bannière -->
     <div class="games-banner">
       <img src="assets/BanArcadiaBlender.png" alt="Bannière promotionnelle" class="banner-img" />
       <div class="banner-title-box">
@@ -213,11 +220,11 @@
           <span [ngClass]="{'status-ok': game.details.game.status, 'status-ko': !game.details.game.status}">
             {{ game.details.game.status ? 'Disponible' : 'Indisponible' }}
           </span>
-        </p><div class="quantity-box">
+        </p>
+        <div class="quantity-box">
           <button (click)="clickMinus($event, game)">-</button>
           <span class="quantity-label">Quantité : {{game.quantity}} </span>
           <button (click)="clickPlus($event, game)">+</button>
-          
         </div>
         <button (click)="clickToBasket($event, game)" class="add-basket">Mettre dans le panier</button>
       </div>
@@ -237,16 +244,9 @@
     </div>
   </div>
 
+  <!-- Déconnexion Modal -->
   <div class="modal-overlay" *ngIf="lougoutVisible"></div>
-  <section class="deconnexion">
-    <h2>Souhaitez-vous vous déconnecter ?</h2>
-    <div class="validation">
-      <button (click)="logout()">Oui</button>
-      <button (click)="clickCrossLougout()">Non</button>
-    </div>
-  </section>
-</div>
-
+  <section class="deconnexion" [style.display]="lougoutVisible ? 'block' : 'none'">
 <!-- Loader toujours en haut -->
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="spinner"></div>

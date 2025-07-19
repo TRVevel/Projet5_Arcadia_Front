@@ -1,4 +1,4 @@
-/* Reset & Base */
+/* ====== RESET & BASE ====== */
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +12,7 @@ body, html {
   background: linear-gradient(160deg, #CB40E3 0%, #25BEE1 100%);
 }
 
-/* Header */
+/* ====== HEADER ====== */
 header {
   position: fixed;
   top: 0;
@@ -45,14 +45,11 @@ header {
   color: #fff;
   text-shadow: 0 2px 8px #2228;
   transition: transform 0.2s, background 0.2s, color 0.2s;
-  /* linear-gradient seulement au hover */
   background: none;
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
   background-clip: initial;
 }
-
-
 .logo:hover, .brand-title:hover {
   cursor: pointer;
   transform: scale(1.05);
@@ -82,7 +79,7 @@ header {
   background-color: #cb40e3c3;
 }
 
-/* Games List Container */
+/* ====== MAIN CONTAINER ====== */
 .games-list {
   max-width: 1500px;
   margin: 110px auto 40px auto;
@@ -94,8 +91,51 @@ header {
   z-index: 1;
 }
 
+/* ====== BANNIÈRE ====== */
+.games-banner {
+  width: 100%;
+  margin: 0 auto 32px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.banner-img {
+  width: 100%;
+  max-width: 1400px;
+  max-height: 200px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0003;
+  object-fit: cover;
+  display: block;
+}
+.banner-title-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(24, 26, 35);
+  border-radius: 24px;
+  border: 3px solid #CB40E3;
+  padding: 24px 48px;
+  box-shadow: 0 4px 24px #0006;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 280px;
+  max-width: 90%;
+}
+.banner-title {
+  color: #fff;
+  font-size: 2.2em;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin: 0;
+  text-shadow: 0 4px 24px #000a, 0 2px 8px #2228;
+}
 
-/* Search Bar */
+/* ====== SEARCH BAR ====== */
 .search-bar {
   width: 100%;
   display: flex;
@@ -120,7 +160,7 @@ header {
   box-shadow: 0 0 0 2px #25BEE144;
 }
 
-/* Filters Bar */
+/* ====== FILTERS BAR ====== */
 .filters-bar {
   display: flex;
   flex-wrap: wrap;
@@ -152,7 +192,7 @@ header {
   letter-spacing: 0.02em;
 }
 
-/* Platform Dropdown */
+/* ====== PLATFORM DROPDOWN ====== */
 .platform-dropdown {
   position: relative;
   display: inline-block;
@@ -200,8 +240,7 @@ header {
   color: #181a23 !important;
 }
 
-
-/* PEGI Colors */
+/* ====== PEGI COLORS ====== */
 .pegi-green {
   color: #2ecc40 !important;
   border-left: 8px solid #2ecc40 !important;
@@ -215,7 +254,7 @@ header {
   border-left: 8px solid #e74c3c !important;
 }
 
-/* Cards Grid */
+/* ====== CARDS GRID ====== */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -250,7 +289,7 @@ header {
   }
 }
 
-/* Game Card */
+/* ====== GAME CARD ====== */
 .game-card {
   background: linear-gradient(120deg, #23243a 60%, #181a23 100%);
   border-radius: 14px;
@@ -281,7 +320,7 @@ header {
   line-height: 1.2;
 }
 
-/* Game Image */
+/* ====== GAME IMAGE ====== */
 .game-image {
   width: 100%;
   max-width: 220px;
@@ -300,7 +339,50 @@ header {
   }
 }
 
-/* Pagination */
+/* ====== QUANTITY BOX ====== */
+.quantity-box {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.quantity-box button {
+  height: 40px;
+  width: 40px;
+  background: #23243a;
+  color: #25BEE1;
+  border: 2px solid #CB40E3;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.quantity-box button:hover {
+  background: #25BEE1;
+  color: #181a23;
+  border-color: #25BEE1;
+}
+.add-basket {
+  background: #23243a;
+  color: #25BEE1;
+  border: 2px solid #CB40E3;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.add-basket:hover {
+  background: #25BEE1;
+  color: #181a23;
+  border-color: #25BEE1;
+}
+
+/* ====== PAGINATION ====== */
 .pagination {
   display: flex;
   justify-content: center;
@@ -325,7 +407,7 @@ header {
   border-color: rgb(37, 190, 225);
 }
 
-/* Status */
+/* ====== STATUS ====== */
 .status-ok {
   color: #2ecc40;
   font-weight: bold;
@@ -335,7 +417,7 @@ header {
   font-weight: bold;
 }
 
-/* Déconnexion Modal */
+/* ====== MODAL DECONNEXION ====== */
 .deconnexion {
   position: fixed;
   display: none;
@@ -370,19 +452,9 @@ header {
 .validation button:hover {
   background-color: #0056b3;
 }
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-}
 .validation button:first-child:hover {
   animation: shakeFear 0.4s infinite;
 }
-
 @keyframes shakeFear {
   0% { transform: translateX(0); }
   10% { transform: translateX(-2px); }
@@ -396,8 +468,59 @@ header {
   90% { transform: translateY(-1px); }
   100% { transform: translateX(0), translateY(0); }
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
 
-/* Responsive header & brand-title */
+/* ====== LOADING SPINNER ====== */
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24,26,35,0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.spinner {
+  border: 6px solid #25BEE1;
+  border-top: 6px solid #CB40E3;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+/* ====== PLATFORM COLORS (SELECT & CARD) ====== */
+.games-list option.platform-playstation { color: #0070D1 !important; }
+.games-list option.platform-xbox { color: #107C10 !important; }
+.games-list option.platform-pc { color: #e19625 !important; }
+.games-list option.platform-nintendo { color: #E60012 !important; }
+.games-list option.platform-default { color: rgb(203, 64, 227) !important; }
+.platform-playstation { border-left: 8px solid #0070D1 !important; }
+.platform-playstation h3 { color: #0070D1 !important; }
+.platform-xbox { border-left: 8px solid #107C10 !important; }
+.platform-xbox h3 { color: #107C10 !important; }
+.platform-pc { border-left: 8px solid #e19625 !important; }
+.platform-pc h3 { color: #e19625 !important; }
+.platform-nintendo { border-left: 8px solid #E60012 !important; }
+.platform-nintendo h3 { color: #E60012 !important; }
+.platform-default { border-left: 8px solid rgb(203, 64, 227) !important; }
+.platform-default h3 { color: rgb(203, 64, 227) !important; }
+
+/* ====== RESPONSIVE ====== */
 @media (max-width: 900px) {
   header {
     padding: 0 10px;
@@ -413,9 +536,22 @@ header {
     transform: translateX(-50%);
     position: absolute;
   }
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .platform-filter-group,
+  .device-filter-group,
+  .pegi-filter-group,
+  .genre-filter-group,
+  .sort-filter-group,
+  .sensitive-filter-group {
+    min-width: 0;
+    width: 100%;
+    align-items: stretch;
+  }
 }
-
-/* Responsive games-list and banner */
 @media (max-width: 1000px) {
   .games-list {
     padding: 20px 8px;
@@ -454,44 +590,17 @@ header {
     min-width: 0;
     font-size: 1em;
   }
-}
-
-/* Responsive filters bar */
-@media (max-width: 900px) {
-  .filters-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .platform-filter-group,
-  .device-filter-group,
-  .pegi-filter-group,
-  .genre-filter-group,
-  .sort-filter-group,
-  .sensitive-filter-group {
-    min-width: 0;
-    width: 100%;
-    align-items: stretch;
-  }
-}
-
-/* Responsive pagination */
-@media (max-width: 700px) {
   .pagination button {
     padding: 5px 10px;
     font-size: 0.95em;
   }
 }
-
-/* Responsive modal */
 @media (max-width: 600px) {
   .deconnexion {
     padding: 12px 4px;
     max-width: 98vw;
   }
 }
-
-/* Responsive for very small screens */
 @media (max-width: 400px) {
   .brand-title {
     font-size: 1em;
@@ -502,6 +611,6 @@ header {
     font-size: 0.8em;
   }
   .game-card h3 {
-    font-size: 1.3em;
+    font-size: 1.1em;
   }
 }
