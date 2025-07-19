@@ -9,4 +9,3 @@ dockerFile
 npm-debug.log
 yarn-error.log
 *.md
-environments
