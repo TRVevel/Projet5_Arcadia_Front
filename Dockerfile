@@ -1,5 +1,5 @@
 # Étape 1 : Compilation de l'application Angular
-FROM node:18-slim AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
 # Copie des fichiers de configuration et installation des dépendances
 COPY package*.json ./
