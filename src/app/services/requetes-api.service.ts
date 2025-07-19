@@ -1,34 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UtilsService } from './utils.service'; // Assure-toi que le chemin est correct
+import { UtilsService } from './utils.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequetesApiService {
-  constructor(
-    private httpClient: HttpClient,
-    @Inject(UtilsService) private utilsService: UtilsService // Injection du service utilitaire
-  ) { }
   private baseUrl = 'http://localhost:3000/api';
 
-  private get token(): string | null {
-    return this.utilsService.getCookie('token'); // Utilisation de la méthode du service
-  }
+  constructor(
+    private httpClient: HttpClient,
+    @Inject(UtilsService) private utilsService: UtilsService
+  ) { }
 
-  private getHeaders(): HttpHeaders {
-    const token = this.token;
-    if (!token) {
-      throw new Error('No authentication token');
-    }
-    // Retourner un objet HttpHeaders
-    return new HttpHeaders({
-      Authorization: `${token}`
-    });
-  }
-  
+  // --- Authentification ---
   customerLogin(body: any) {
     return this.httpClient.post<any>(`${this.baseUrl}/auth/login`, body, { withCredentials: true });
   }
@@ -41,20 +28,21 @@ export class RequetesApiService {
   staffRegister(body: any) {
     return this.httpClient.post<any>(`${this.baseUrl}/auth/erp/register`, body, { withCredentials: true });
   }
+  deconnexion(): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/auth/logout`, {}, { withCredentials: true });
+  }
 
+  // --- Jeux & Plateformes ---
   getGamesPlatform() {
     return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms`, { withCredentials: true });
   }
   getGamePlatformDetails(id: number) {
-    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms/${id}`, {  withCredentials: true });
+    return this.httpClient.get<any>(`${this.baseUrl}/gameplatforms/${id}`, { withCredentials: true });
   }
 
- deconnexion(): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/auth/logout`, {}, { withCredentials: true });
-  }
-
+  // --- Profil Client ---
   getCustomerProfil(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/customer/profil`, {  withCredentials: true });
+    return this.httpClient.get<any>(`${this.baseUrl}/customer/profil`, { withCredentials: true });
   }
   updateCustomerProfil(userData: any): Observable<any> {
     const headers = this.getHeaders();
@@ -63,6 +51,8 @@ export class RequetesApiService {
   getCustomerOrderHistory(): Observable<any[]> {
     return this.httpClient.get<any[]>(`${this.baseUrl}/customer/order_history`, { withCredentials: true });
   }
+
+  // --- Panier ---
   getBasket(): Observable<any> {
     const headers = this.getHeaders();
     return this.httpClient.get<any>(`${this.baseUrl}/baskets`, { headers, withCredentials: true });
@@ -81,21 +71,29 @@ export class RequetesApiService {
     const body = { card_name, card_number, card_expiry, card_cvc };
     return this.httpClient.post<any>(`${this.baseUrl}/baskets/confirm`, body, { headers, withCredentials: true });
   }
+
+  // --- Commandes ---
   getOrder(): Observable<any> {
     const headers = this.getHeaders();
     return this.httpClient.get<any>(`${this.baseUrl}/orders`, { headers, withCredentials: true });
   }
-   cancelOrder(order_id: string): Observable<any> {
+  cancelOrder(order_id: string): Observable<any> {
     const headers = this.getHeaders();
     return this.httpClient.delete<any>(`${this.baseUrl}/orders/${order_id}`, { headers, withCredentials: true });
   }
-  
-  
-    // Utilitaires
-  private ensureToken(): void {
+
+  // --- Utilitaires ---
+  private get token(): string | null {
+    return this.utilsService.getCookie('token');
+  }
+  private getHeaders(): HttpHeaders {
     const token = this.token;
     if (!token) {
       throw new Error('No authentication token');
     }
+    return new HttpHeaders({
+      Authorization: `${token}`
+    });
   }
+  
 }

@@ -5,44 +5,39 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UtilsService {
+  // --- Cookies ---
   getCookie(name: string): string | null {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     return match ? match[2] : null;
   }
 
-  // Méthodes header
+  // --- Auth & Navigation Header ---
   checkAuth(): boolean {
-    const token = this.getCookie('token');
-    return !!token;
+    return !!this.getCookie('token');
   }
 
   handleUserProfile(router: Router, isLoggedIn: boolean): void {
-    if (isLoggedIn) {
-      router.navigate(['/profil']);
-    } else {
-      router.navigate(['/auth']);
-    }
+    router.navigate([isLoggedIn ? '/profil' : '/auth']);
   }
- onClickToHome(router: Router): void {
+
+  onClickToHome(router: Router): void {
     router.navigate(['/home']);
   }
+
   clickLougout(): boolean {
     return true;
   }
 
   clickCrossLougout(): void {
-    const deconnexion = document.querySelector(".deconnexion") as HTMLElement;
+    const deconnexion = document.querySelector('.deconnexion') as HTMLElement;
     if (deconnexion) {
-      deconnexion.style.display = "none";
+      deconnexion.style.display = 'none';
     }
     // lougoutVisible doit être géré dans le composant, pas ici
   }
+
   clickBasket(router: Router, isLoggedIn: boolean): void {
-    if (isLoggedIn) {
-      router.navigate(['/basket']);
-    } else {
-      router.navigate(['/auth']);
-    }
+    router.navigate([isLoggedIn ? '/basket' : '/auth']);
   }
-  // Ajoute d'autres fonctions utilitaires ici
+
 }
