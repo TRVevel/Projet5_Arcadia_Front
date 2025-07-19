@@ -1,4 +1,4 @@
-/* Reset & Base */
+/* ====== RESET & BASE ====== */
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +11,8 @@ body, html {
   font-family: 'Segoe UI', 'Lucida Sans', Arial, sans-serif;
   background: linear-gradient(160deg, #CB40E3 0%, #25BEE1 100%);
 }
-/* Header */
+
+/* ====== HEADER ====== */
 header {
   position: fixed;
   top: 0;
@@ -44,15 +45,13 @@ header {
   color: #fff;
   text-shadow: 0 2px 8px #2228;
   transition: transform 0.2s, background 0.2s, color 0.2s;
-  /* linear-gradient seulement au hover */
   background: none;
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
   background-clip: initial;
 }
-
 .logo:hover, .brand-title:hover {
- cursor: pointer;
+  cursor: pointer;
   transform: scale(1.05);
   background: linear-gradient(45deg, #25bee1 0%, #CB40E3 100%);
   -webkit-background-clip: text;
@@ -79,6 +78,8 @@ header {
 .userParam button:hover {
   background-color: #cb40e3c3;
 }
+
+/* ====== CONTAINERS ====== */
 .profil-container-wrapper {
   display: flex;
   gap: 40px;
@@ -93,10 +94,11 @@ header {
   transition: box-shadow 0.2s;
 }
 
-
+/* ====== PROFIL ====== */
 .profil-container {
   max-width: 520px;
   min-width: 440px;
+  max-height: 850px;
   background: linear-gradient(135deg, #23243a 60%, #2d2e4d 100%);
   border-radius: 22px;
   box-shadow: 0 8px 32px #000a;
@@ -128,7 +130,7 @@ header {
   letter-spacing: 0.03em;
 }
 .profil-field input {
-  padding: 10px 14px;
+  padding: 6px 14px;
   border-radius: 8px;
   border: 1.5px solid #25bee1;
   background: #181a23;
@@ -174,91 +176,30 @@ header {
   padding: 12px;
   box-shadow: 0 2px 8px #e74c3c40;
 }
+
+/* ====== PANELS COMMANDES ====== */
+.order-current-container,
 .order-history-container {
-  max-width: 640px; 
-  min-width: 560px;
-  background: linear-gradient(135deg, #23243a 60%, #CB40E3 100%);
+  max-width: 640px;
+  min-width: 440px;
   border-radius: 22px;
   box-shadow: 0 8px 32px #000a;
   padding: 36px 28px;
   color: #fff;
-  max-height: 700px;
-  overflow-y: auto;
-  position: relative;
-  transition: box-shadow 0.2s;
-}
-.order-history-container:hover {
-  box-shadow: 0 12px 40px #25bee180;
-}
-.order-history-container h2 {
-  text-align: center;
-  margin-bottom: 28px;
-  color: #25bee1;
-  font-size: 2em;
-  letter-spacing: 0.04em;
-  text-shadow: 0 2px 12px #25bee180;
-}
-.order-card {
-  margin-bottom: 22px;
-  padding: 18px 16px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #25bee1 0%, #23243a 20%);
-  box-shadow: 0 2px 12px #0004;
+  margin-bottom: 24px;
   transition: box-shadow 0.2s, background 0.2s;
-}
-.order-card:hover {
-  background: linear-gradient(90deg, #23243a 20%, #CB40E3 100%);
-  box-shadow: 0 4px 18px #cb40e380;
+  position: relative;
 }
 .order-current-container {
-  max-width: 640px;
-  min-width: 440px;
-  background: linear-gradient(135deg, #23243a 60%, #25BEE1 100%);
-  border-radius: 22px;
-  box-shadow: 0 8px 32px #000a;
-  padding: 36px 28px;
-  color: #fff;
-  margin-bottom: 24px;
-  transition: box-shadow 0.2s;
-}
-.order-current-container h2 {
-  text-align: center;
-  margin-bottom: 28px;
-  color: #25bee1;
-  font-size: 2em;
-  letter-spacing: 0.04em;
-  text-shadow: 0 2px 12px #25bee180;
-}
-.order-current-container:hover {
-  box-shadow: 0 12px 40px #cb40e380;
-}
-/* --- Panels Commande en cours & Historique harmonisés --- */
-.order-current-container{
-    max-width: 640px;
-  min-width: 440px;
   background: linear-gradient(225deg, #23243a 60%, #25BEE1 100%);
-  border-radius: 22px;
-  box-shadow: 0 8px 32px #000a;
-  padding: 36px 28px;
-  color: #fff;
-  margin-bottom: 24px;
-  transition: box-shadow 0.2s, background 0.2s;
-  position: relative;
-  
+  max-height: 850px;
+  overflow-y: auto;
 }
 .order-history-container {
-  max-width: 640px;
-  min-width: 440px;
   background: linear-gradient(135deg, #23243a 60%, #25BEE1 100%);
-  border-radius: 22px;
-  box-shadow: 0 8px 32px #000a;
-  padding: 36px 28px;
-  color: #fff;
-  margin-bottom: 24px;
-  transition: box-shadow 0.2s, background 0.2s;
-  position: relative;
+  max-height: 850px;
+  overflow-y: auto;
 }
-
 .order-current-container h2,
 .order-history-container h2 {
   text-align: center;
@@ -268,8 +209,7 @@ header {
   letter-spacing: 0.04em;
   text-shadow: 0 2px 12px #25bee180;
 }
-
-.order-current-container:hover{
+.order-current-container:hover {
   box-shadow: 0 12px 40px #cb40e380;
   background: linear-gradient(225deg, #23243a 40%, #CB40E3 100%);
 }
@@ -278,7 +218,19 @@ header {
   background: linear-gradient(135deg, #23243a 40%, #CB40E3 100%);
 }
 
-/* Cards dans les panels */
+/* Scrollbar style for current orders (comme historique) */
+.order-current-container::-webkit-scrollbar {
+  width: 8px;
+  background: #23243a;
+  border-radius: 8px;
+}
+.order-current-container::-webkit-scrollbar-thumb {
+  background: #CB40E3;
+  border-radius: 8px;
+}
+
+/* ====== ORDER CARDS ====== */
+.order-card,
 .order-history-container .order-card {
   margin-bottom: 22px;
   padding: 18px 16px;
@@ -288,12 +240,12 @@ header {
   transition: box-shadow 0.2s, background 0.2s;
   border: 2px solid transparent;
 }
+.order-card:hover,
 .order-history-container .order-card:hover {
   background: linear-gradient(90deg, #23243a 20%, #CB40E3 100%);
   box-shadow: 0 4px 18px #cb40e380;
   border: 2px solid #CB40E3;
 }
-
 .order-header {
   display: flex;
   justify-content: space-between;
@@ -397,13 +349,12 @@ header {
   color: #25bee1;
   transition: color 0.2s, text-shadow 0.2s;
 }
-
 .item-main strong:hover {
   color: #CB40E3;
   text-shadow: 0 2px 8px #cb40e3;
 }
 
-/* Scrollbar stylée pour l'historique */
+/* ====== SCROLLBAR ====== */
 .order-history-container::-webkit-scrollbar {
   width: 8px;
   background: #23243a;
@@ -414,7 +365,7 @@ header {
   border-radius: 8px;
 }
 
-/* Responsive */
+/* ====== RESPONSIVE ====== */
 @media (max-width: 900px) {
   .profil-container-wrapper {
     flex-direction: column;
@@ -435,8 +386,6 @@ header {
     padding: 20px 8px;
   }
 }
-
-/* Responsive styles supplémentaires */
 @media (max-width: 700px) {
   header {
     padding: 0 8px;
@@ -507,7 +456,6 @@ header {
     border-radius: 7px;
   }
 }
-
 @media (max-width: 450px) {
   .brand-title {
     font-size: 0.85em;
@@ -543,7 +491,7 @@ header {
   }
 }
 
-/* Loading Spinner & Overlay */
+/* ====== LOADING SPINNER & OVERLAY ====== */
 .loading-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -567,6 +515,8 @@ header {
   0% { transform: rotate(0deg);}
   100% { transform: rotate(360deg);}
 }
+
+/* ====== CANCEL ORDER BUTTON ====== */
 .cancel-order-btn {
   margin-top: 14px;
   background: linear-gradient(90deg, #e74c3c 60%, #CB40E3 100%);
@@ -584,7 +534,6 @@ header {
   display: block;
   width: fit-content;
 }
-
 .cancel-order-btn:hover,
 .cancel-order-btn:focus {
   background: linear-gradient(90deg, #CB40E3 60%, #e74c3c 100%);

@@ -14,11 +14,10 @@ import { UtilsService } from '../services/utils.service';
 export class CustomerProfilComponent {
   user: any = null;
   orderHistory: any[] = [];
-  game: any;
-  isLoggedIn: boolean = false;
-  lougoutVisible: boolean = false;
-  isLoading: boolean = true; // Loader
   currentOrders: any[] = [];
+  isLoggedIn = false;
+  lougoutVisible = false;
+  isLoading = true;
 
   constructor(
     public requetesApiService: RequetesApiService,
@@ -34,7 +33,6 @@ export class CustomerProfilComponent {
     this.requetesApiService.getCustomerProfil().subscribe({
       next: (data) => {
         this.user = data.profil;
-        console.log('User profil:', this.user);
         this.isLoading = false;
       },
       error: () => {
@@ -43,18 +41,14 @@ export class CustomerProfilComponent {
       }
     });
 
-    // Récupère toutes les commandes livrées ou annulées pour l'historique
     this.requetesApiService.getOrder().subscribe({
       next: (orders) => {
         if (Array.isArray(orders)) {
           this.currentOrders = orders.filter((o: any) =>
-            o.status &&
-            o.status !== 'delivered' &&
-            o.status !== 'cancelled'
+            o.status && o.status !== 'delivered' && o.status !== 'cancelled'
           );
           this.orderHistory = orders.filter((o: any) =>
-            o.status &&
-            (o.status === 'delivered' || o.status === 'cancelled')
+            o.status && (o.status === 'delivered' || o.status === 'cancelled')
           );
         } else {
           this.currentOrders = [];
@@ -75,7 +69,7 @@ export class CustomerProfilComponent {
     });
   }
 
-  // Méthodes header via UtilsService
+  // --- Méthodes header via UtilsService ---
   checkAuth(): void {
     this.isLoggedIn = this.utilsService.checkAuth();
   }

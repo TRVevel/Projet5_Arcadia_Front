@@ -7,21 +7,20 @@
   </div>
 </header>
 
+<!-- Loader -->
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="spinner"></div>
   <p>Chargement...</p>
 </div>
+
 <div *ngIf="!isLoading" class="profil-container-wrapper">
+
+  <!-- Commandes en cours -->
   <div class="order-panel-col">
-    <!-- Panel Commande en cours -->
     <div class="order-current-container">
       <h2>Commande(s) en cours</h2>
       <div *ngIf="currentOrders?.length; else noCurrentOrders">
-        <div
-          *ngFor="let order of currentOrders"
-          class="order-card"
-          style="margin-bottom:18px; padding:12px; border-radius:8px; background:#2a2b45;"
-        >
+        <div *ngFor="let order of currentOrders" class="order-card" style="margin-bottom:18px; padding:12px; border-radius:8px; background:#2a2b45;">
           <div class="order-header">
             <span class="order-id">#{{order.id}}</span>
             <span class="order-status" [ngClass]="{
@@ -41,8 +40,7 @@
             <span>Articles :</span>
             <ul>
               <li *ngFor="let item of order.items">
-                <div class="item-main" 
-                     (click)="clickGamePlat(item.game_platform_id)">
+                <div class="item-main" (click)="clickGamePlat(item.game_platform_id)">
                   <img *ngIf="item.GamePlatform?.Game?.cover" [src]="'/assets/' + item.GamePlatform.Game.cover" alt="cover" class="game-cover">
                   <div>
                     <strong>{{item.GamePlatform?.Game?.title || 'Jeu inconnu'}}</strong>
@@ -75,6 +73,8 @@
       </ng-template>
     </div>
   </div>
+
+  <!-- Profil utilisateur -->
   <div class="profil-container">
     <h2>Mon Profil</h2>
     <form *ngIf="user" (ngSubmit)="onSubmit()">
@@ -121,6 +121,8 @@
       <p>Impossible de charger les informations utilisateur.</p>
     </div>
   </div>
+
+  <!-- Historique des commandes -->
   <div class="order-history-container">
     <h2>Historique des commandes</h2>
     <div *ngIf="orderHistory?.length; else noOrders">

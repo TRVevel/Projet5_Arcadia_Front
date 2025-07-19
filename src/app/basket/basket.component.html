@@ -1,5 +1,5 @@
 <header>
-  <img src="/assets/LogoArca.png"  alt="Logo" class="logo" (click)="onClickToHome()">
+  <img src="/assets/LogoArca.png" alt="Logo" class="logo" (click)="onClickToHome()">
   <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
   <div class="userParam">
     <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
@@ -14,19 +14,35 @@
   <p>Chargement...</p>
 </div>
 
-<div *ngIf="!isLoading" class="basket-container" style="display: flex; gap: 2rem; margin-top: 2rem;">
+<div *ngIf="!isLoading" class="basket-container" style="display: flex; gap: 2rem;">
   <!-- Panier du client -->
   <div class="basket-list" style="flex: 1;">
     <h2>Votre panier</h2>
     <div *ngIf="basket && basket.length > 0; else emptyBasket">
       <ul>
         <li *ngFor="let item of basket">
-          <strong>Jeu #{{ item.game_platform_id }}</strong><br>
-          Quantité : {{ item.quantity }}<br>
-          Prix total : {{ item.total_price | currency:'EUR' }}<br>
-          <button (click)="deleteBasket(item.id)" style="margin-top: 0.5rem; background: #cb4040; border: none; color: #fff; border-radius: 4px; padding: 5px 12px; cursor: pointer;">
-            Annuler
-          </button>
+          <div style="display: flex; align-items: flex-start; gap: 1rem;">
+            <div>
+              <strong>{{ item.gamePlatform?.Game?.title || 'Jeu #' + item.game_platform_id }}</strong>
+              <span class="platform">({{ item.gamePlatform?.Platform?.name || 'NC' }})</span>
+              <div style="font-size: 0.95em; color: #aaa;">
+                {{ item.gamePlatform?.Game?.description || 'Pas de description.' }}
+              </div>
+              <div style="margin-top: 0.3em;">
+                <span><strong>Plateforme :</strong> {{ item.gamePlatform?.Platform?.name || 'NC' }}</span><br>
+                <span><strong>Compatible :</strong> {{ item.gamePlatform?.compatible_device || 'NC' }}</span><br>
+                <span><strong>Date de sortie :</strong> {{ item.gamePlatform?.release_date | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+            <div style="margin-left:auto; text-align:right;">
+              <span><strong>Quantité :</strong> {{ item.quantity }}</span><br>
+              <span><strong>Prix unitaire :</strong> {{ item.gamePlatform?.price | currency:'EUR' }}</span><br>
+              <span><strong>Prix total :</strong> {{ item.total_price | currency:'EUR' }}</span><br>
+              <button (click)="deleteBasket(item.id)" style="margin-top: 0.5rem; background: #cb4040; border: none; color: #fff; border-radius: 4px; padding: 5px 12px; cursor: pointer;">
+                Annuler
+              </button>
+            </div>
+          </div>
         </li>
       </ul>
       <div style="margin-top:1rem;">
