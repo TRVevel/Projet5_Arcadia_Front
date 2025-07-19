@@ -12,11 +12,11 @@ import { RequetesApiService } from '../services/requetes-api.service';
   styleUrl: './basket.component.css'
 })
 export class BasketComponent {
-  isLoading: boolean = true;
-  isLoggedIn: boolean = false;
-  lougoutVisible: boolean = false;
+  isLoading = true;
+  isLoggedIn = false;
+  lougoutVisible = false;
   basket: any[] = [];
-  basketTotal: number = 0;
+  basketTotal = 0;
 
   payment = {
     cardName: '',
@@ -31,84 +31,81 @@ export class BasketComponent {
     private requetesApiService: RequetesApiService
   ) {}
 
-ngOnInit(): void {
-  this.checkAuth();
-  this.isLoading = true;
-  this.loadBasket();
-}
+  ngOnInit(): void {
+    this.checkAuth();
+    this.isLoading = true;
+    this.loadBasket();
+  }
 
+  // --- Auth & Navigation ---
   checkAuth(): void {
     this.isLoggedIn = this.utilsService.checkAuth();
   }
-
-  handleUserProfile() {
+  handleUserProfile(): void {
     this.utilsService.handleUserProfile(this.router, this.isLoggedIn);
   }
-
-  clickLougout() {
+  clickLougout(): void {
     this.lougoutVisible = this.utilsService.clickLougout();
   }
-
   onClickToHome(): void {
     this.utilsService.onClickToHome(this.router);
   }
 
- loadBasket() {
-  this.isLoading = true;
-  this.requetesApiService.getBasket().subscribe({
-    next: (data) => {
-      console.log('Contenu du panier reçu :', data);
-      this.basket = Array.isArray(data) ? data : [];
-      this.basketTotal = this.basket.reduce((acc, item) => acc + parseFloat(item.total_price), 0);
-      this.isLoading = false;
-    },
-    error: () => {
-      this.basket = [];
-      this.basketTotal = 0;
-      this.isLoading = false;
-    }
-  });
-}
+  // --- Panier ---
+  loadBasket(): void {
+    this.isLoading = true;
+    this.requetesApiService.getBasket().subscribe({
+      next: (data) => {
+        this.basket = Array.isArray(data) ? data : [];
+        this.basketTotal = this.basket.reduce((acc, item) => acc + parseFloat(item.total_price), 0);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.basket = [];
+        this.basketTotal = 0;
+        this.isLoading = false;
+      }
+    });
+  }
 
-onPay() {
-  this.isLoading = true;
-  this.requetesApiService.confirmBasket(
-    this.payment.cardName,
-    this.payment.cardNumber,
-    this.payment.expDate,
-    this.payment.cvc
-  ).subscribe({
-    next: (res) => {
-      alert('Paiement effectué ! Commande confirmée.');
-      this.loadBasket();
-      this.payment = {
-        cardName: '',
-        cardNumber: '',
-        expDate: '',
-        cvc: ''
-      };
-      this.isLoading = false;
-    },
-    error: (err) => {
-      alert('Erreur lors de la validation du panier.');
-      console.error(err);
-      this.isLoading = false;
-    }
-  });
-}
+  deleteBasket(id: string): void {
+    this.isLoading = true;
+    this.requetesApiService.deleteBasket(id).subscribe({
+      next: () => {
+        this.loadBasket();
+        this.isLoading = false;
+      },
+      error: () => {
+        alert('Erreur lors de la suppression du panier.');
+        this.isLoading = false;
+      }
+    });
+  }
 
-deleteBasket(id: string) {
-  this.isLoading = true;
-  this.requetesApiService.deleteBasket(id).subscribe({
-    next: () => {
-      this.loadBasket();
-      this.isLoading = false;
-    },
-    error: (err) => {
-      alert('Erreur lors de la suppression du panier.');
-      console.error(err);
-      this.isLoading = false;
-    }
-  });
+  // --- Paiement ---
+  onPay(): void {
+    this.isLoading = true;
+    this.requetesApiService.confirmBasket(
+      this.payment.cardName,
+      this.payment.cardNumber,
+      this.payment.expDate,
+      this.payment.cvc
+    ).subscribe({
+      next: () => {
+        alert('Paiement effectué ! Commande confirmée.');
+        this.loadBasket();
+        this.payment = {
+          cardName: '',
+          cardNumber: '',
+          expDate: '',
+          cvc: ''
+        };
+        this.isLoading = false;
+      },
+      error: () => {
+        alert('Erreur lors de la validation du panier.');
+        this.isLoading = false;
+      }
+    });
   }
 }

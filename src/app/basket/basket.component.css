@@ -1,3 +1,4 @@
+/* ====== RESET & BASE ====== */
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +11,8 @@ body, html {
   font-family: 'Segoe UI', 'Lucida Sans', Arial, sans-serif;
   background: linear-gradient(160deg, #CB40E3 0%, #25BEE1 100%);
 }
-/* Header */
+
+/* ====== HEADER ====== */
 header {
   position: fixed;
   top: 0;
@@ -43,15 +45,13 @@ header {
   color: #fff;
   text-shadow: 0 2px 8px #2228;
   transition: transform 0.2s, background 0.2s, color 0.2s;
-  /* linear-gradient seulement au hover */
   background: none;
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
   background-clip: initial;
 }
-
 .logo:hover, .brand-title:hover {
- cursor: pointer;
+  cursor: pointer;
   transform: scale(1.05);
   background: linear-gradient(45deg, #25bee1 0%, #CB40E3 100%);
   -webkit-background-clip: text;
@@ -78,6 +78,8 @@ header {
 .userParam button:hover {
   background-color: #cb40e3c3;
 }
+
+/* ====== CONTAINER ====== */
 .basket-container {
   display: flex;
   gap: 2rem;
@@ -86,6 +88,7 @@ header {
   min-height: 60vh;
 }
 
+/* ====== BASKET LIST & PAYMENT FORM ====== */
 .basket-list, .payment-form {
   background: rgba(24, 26, 35, 0.95);
   border-radius: 12px;
@@ -95,7 +98,6 @@ header {
   max-width: 500px;
   flex: 1;
 }
-
 .basket-list h2, .payment-form h2 {
   margin-bottom: 1.5rem;
   color: #25BEE1;
@@ -103,35 +105,78 @@ header {
   text-align: center;
 }
 
+/* ====== BASKET ITEMS ====== */
 .basket-list ul {
   list-style: none;
   padding: 0;
 }
-
 .basket-list li {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #25BEE1;
   font-size: 1.1em;
 }
-
 .basket-list strong {
   color: #CB40E3;
 }
+.basket-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.basket-item-main {
+  flex: 1;
+}
+.basket-item-side {
+  margin-left: auto;
+  text-align: right;
+}
+.basket-delete-btn {
+  margin-top: 0.5rem;
+  background: #cb4040;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.basket-delete-btn:hover {
+  background: #e74c3c;
+}
+.game-description {
+  font-size: 0.95em;
+  color: #aaa;
+}
+.game-details {
+  margin-top: 0.3em;
+  font-size: 0.97em;
+  color: #ccc;
+}
+.platform {
+  color: #25BEE1;
+  font-size: 0.95em;
+  margin-left: 4px;
+}
+.basket-total {
+  margin-top: 1rem;
+  font-size: 1.15em;
+  color: #25BEE1;
+}
 
+/* ====== PAYMENT FORM ====== */
 .payment-form form {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
-
 .payment-form label {
   font-weight: 600;
   color: #25BEE1;
   margin-bottom: 0.3rem;
   display: block;
 }
-
 .payment-form input {
   padding: 0.6rem 1rem;
   border-radius: 5px;
@@ -144,11 +189,9 @@ header {
   outline: none;
   transition: border 0.2s;
 }
-
 .payment-form input:focus {
   border: 1.5px solid #CB40E3;
 }
-
 .payment-form button[type="submit"] {
   margin-top: 1rem;
   background: linear-gradient(90deg, #CB40E3 0%, #25BEE1 100%);
@@ -161,11 +204,11 @@ header {
   cursor: pointer;
   transition: background 0.2s;
 }
-
 .payment-form button[type="submit"]:hover:enabled {
   background: linear-gradient(90deg, #25BEE1 0%, #CB40E3 100%);
 }
 
+/* ====== LOADING SPINNER ====== */
 .loading-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -190,6 +233,7 @@ header {
   100% { transform: rotate(360deg);}
 }
 
+/* ====== RESPONSIVE ====== */
 @media (max-width: 900px) {
   .basket-container {
     flex-direction: column;
@@ -201,7 +245,6 @@ header {
     min-width: 100%;
   }
 }
-
 @media (max-width: 700px) {
   header {
     padding: 0 8px;
@@ -250,7 +293,6 @@ header {
     font-size: 1em;
   }
 }
-
 @media (max-width: 450px) {
   .brand-title {
     font-size: 0.85em;
@@ -271,4 +313,19 @@ header {
     padding: 0.4rem 0.4rem;
     font-size: 0.95em;
   }
+}
+
+/* ====== SCROLLABLE BASKET LIST ====== */
+.basket-list {
+  max-height: 700px;
+  overflow-y: auto;
+}
+.basket-list::-webkit-scrollbar {
+  width: 8px;
+  background: #23243a;
+  border-radius: 8px;
+}
+.basket-list::-webkit-scrollbar-thumb {
+  background: #CB40E3;
+  border-radius: 8px;
 }

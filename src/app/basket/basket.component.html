@@ -14,38 +14,38 @@
   <p>Chargement...</p>
 </div>
 
-<div *ngIf="!isLoading" class="basket-container" style="display: flex; gap: 2rem;">
+<div *ngIf="!isLoading" class="basket-container">
   <!-- Panier du client -->
-  <div class="basket-list" style="flex: 1;">
+  <div class="basket-list">
     <h2>Votre panier</h2>
     <div *ngIf="basket && basket.length > 0; else emptyBasket">
       <ul>
         <li *ngFor="let item of basket">
-          <div style="display: flex; align-items: flex-start; gap: 1rem;">
-            <div>
+          <div class="basket-item">
+            <div class="basket-item-main">
               <strong>{{ item.gamePlatform?.Game?.title || 'Jeu #' + item.game_platform_id }}</strong>
               <span class="platform">({{ item.gamePlatform?.Platform?.name || 'NC' }})</span>
-              <div style="font-size: 0.95em; color: #aaa;">
+              <div class="game-description">
                 {{ item.gamePlatform?.Game?.description || 'Pas de description.' }}
               </div>
-              <div style="margin-top: 0.3em;">
+              <div class="game-details">
                 <span><strong>Plateforme :</strong> {{ item.gamePlatform?.Platform?.name || 'NC' }}</span><br>
                 <span><strong>Compatible :</strong> {{ item.gamePlatform?.compatible_device || 'NC' }}</span><br>
-                <span><strong>Date de sortie :</strong> {{ item.gamePlatform?.release_date | date:'dd/MM/yyyy' }}</span>
-              </div>
+                <span><strong>Date de sortie :</strong> {{ item.gamePlatform?.release_date | date:'dd/MM/yyyy' }}</span><br>
+                </div>
             </div>
-            <div style="margin-left:auto; text-align:right;">
+            <div class="basket-item-side">
               <span><strong>Quantité :</strong> {{ item.quantity }}</span><br>
               <span><strong>Prix unitaire :</strong> {{ item.gamePlatform?.price | currency:'EUR' }}</span><br>
               <span><strong>Prix total :</strong> {{ item.total_price | currency:'EUR' }}</span><br>
-              <button (click)="deleteBasket(item.id)" style="margin-top: 0.5rem; background: #cb4040; border: none; color: #fff; border-radius: 4px; padding: 5px 12px; cursor: pointer;">
+              <button class="basket-delete-btn" (click)="deleteBasket(item.id)">
                 Annuler
               </button>
             </div>
           </div>
         </li>
       </ul>
-      <div style="margin-top:1rem;">
+      <div class="basket-total">
         <strong>
           Total panier : {{ basketTotal | currency:'EUR' }}
         </strong>
@@ -57,7 +57,7 @@
   </div>
 
   <!-- Formulaire de paiement -->
-  <div class="payment-form" style="flex: 1;">
+  <div class="payment-form">
     <h2>Paiement</h2>
     <form #paymentForm="ngForm" (ngSubmit)="onPay()">
       <div>
