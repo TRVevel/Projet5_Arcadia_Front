@@ -10,247 +10,245 @@
   </div>
 </header>
 
-<div class="games-list">
-  <div class="games-banner">
-    <img src="assets/BanArcadiaBlender.png" alt="Bannière promotionnelle" class="banner-img" />
-    <div class="banner-title-box">
-      <h2 class="banner-title">Liste des jeux</h2>
-    </div>
-  </div>
-
-  <!-- Barre de recherche -->
-  <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="searchTerm"
-      (input)="onSearchChange()"
-      placeholder="Rechercher un jeu..."
-      class="search-input"
-    />
-  </div>
-
-  <!-- Filtres -->
-  <div class="filters-bar">
-    <!-- Plateforme -->
-    <div class="platform-filter-group">
-      <label class="platform-label">Plateforme :</label>
-      <div class="platform-dropdown" [class.open]="showPlatformDropdown">
-        <button class="platform-trigger" (click)="showPlatformDropdown = !showPlatformDropdown">
-          {{ selectedPlatform || 'Toutes les plateformes' }}
-          <span class="arrow">
-            <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
-          </span>
-        </button>
-        <div class="platform-options" *ngIf="showPlatformDropdown">
-          <div class="platform-option platform-default"
-               [class.selected]="selectedPlatform === ''"
-               (click)="selectPlatform('')">Toutes</div>
-          <div *ngFor="let plat of availablePlatforms"
-               class="platform-option"
-               [ngClass]="getPlatformClass(plat)"
-               [class.selected]="selectedPlatform === plat"
-               (click)="selectPlatform(plat)">
-            {{ plat }}
-          </div>
-        </div>
+<div *ngIf="!isLoading">
+  <div class="games-list">
+    <div class="games-banner">
+      <img src="assets/BanArcadiaBlender.png" alt="Bannière promotionnelle" class="banner-img" />
+      <div class="banner-title-box">
+        <h2 class="banner-title">Liste des jeux</h2>
       </div>
     </div>
 
-    <!-- Appareil -->
-    <div class="device-filter-group" *ngIf="availableDevices.length > 0">
-      <label class="platform-label">Appareil :</label>
-      <div class="platform-dropdown" [class.open]="showDeviceDropdown">
-        <button class="platform-trigger" (click)="showDeviceDropdown = !showDeviceDropdown">
-          {{ selectedDevice ? selectedDevice : 'Tous' }}
-          <span class="arrow">
-            <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
-          </span>
-        </button>
-        <div class="platform-options" *ngIf="showDeviceDropdown">
-          <div class="platform-option platform-default"
-               [class.selected]="selectedDevice === ''"
-               [ngClass]="getPlatformClass(selectedPlatform)"
-               (click)="selectDevice('')">Tous</div>
-          <div *ngFor="let dev of availableDevices"
-               class="platform-option"
-               [class.selected]="selectedDevice === dev"
-               [ngClass]="getPlatformClass(selectedPlatform)"
-               (click)="selectDevice(dev)">
-            {{ dev }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PEGI -->
-    <div class="pegi-filter-group">
-      <label class="platform-label">PEGI :</label>
-      <div class="platform-dropdown" [class.open]="showPegiDropdown">
-        <button class="platform-trigger" (click)="showPegiDropdown = !showPegiDropdown">
-          {{ selectedPegi || 'Tous' }}
-          <span class="arrow">
-            <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
-          </span>
-        </button>
-        <div class="platform-options" *ngIf="showPegiDropdown">
-          <div class="platform-option platform-default"
-               [class.selected]="selectedPegi === ''"
-               (click)="selectPegi('')">Tous</div>
-          <div *ngFor="let pegi of availablePegis"
-               class="platform-option"
-               [ngClass]="getPegiClass(pegi)"
-               [class.selected]="selectedPegi == pegi"
-               (click)="selectPegi(pegi)">
-            {{ pegi }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Genre -->
-    <div class="genre-filter-group">
-      <label class="platform-label">Genre :</label>
-      <div class="platform-dropdown" [class.open]="showGenreDropdown">
-        <button class="platform-trigger" (click)="showGenreDropdown = !showGenreDropdown">
-          {{ selectedGenre || 'Tous' }}
-          <span class="arrow">
-            <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
-          </span>
-        </button>
-        <div class="platform-options" *ngIf="showGenreDropdown">
-          <div class="platform-option platform-default"
-               [class.selected]="selectedGenre === ''"
-               (click)="selectGenre('')">Tous</div>
-          <div *ngFor="let genre of availableGenres"
-               class="platform-option"
-               [class.selected]="selectedGenre === genre"
-               (click)="selectGenre(genre)">
-            {{ genre }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contenu sensible -->
-    <div class="sensitive-filter-group" *ngIf="availableSensitive.length > 0">
-      <label class="platform-label">Contenu sensible :</label>
-      <div class="platform-dropdown" [class.open]="showSensitiveDropdown">
-        <button class="platform-trigger" (click)="showSensitiveDropdown = !showSensitiveDropdown">
-          Masquer contenu sensible
-          <span class="arrow">
-            <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
-          </span>
-        </button>
-        <div class="platform-options" *ngIf="showSensitiveDropdown">
-          <label *ngFor="let sens of availableSensitive" class="platform-option" style="display: flex; align-items: center; gap: 8px;">
-            <input
-              type="checkbox"
-              [checked]="hiddenSensitive.includes(sens)"
-              (change)="toggleSensitive(sens, $event)"
-            />
-            {{ sens }}
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <!-- Trier par -->
-    <div class="sort-filter-group">
-      <label class="platform-label">Trier par :</label>
-      <div class="platform-dropdown" [class.open]="showSortDropdown">
-        <button class="platform-trigger" (click)="showSortDropdown = !showSortDropdown">
-          {{
-            sortOption === '' ? 'Aucun' :
-            sortOption === 'date-desc' ? 'Date la plus récente' :
-            sortOption === 'date-asc' ? 'Date la plus ancienne' :
-            sortOption === 'price-asc' ? 'Prix croissant' :
-            sortOption === 'price-desc' ? 'Prix décroissant' :
-            sortOption === 'alpha-asc' ? 'A → Z' :
-            sortOption === 'alpha-desc' ? 'Z → A' : sortOption
-          }}
-          <span class="arrow">
-            <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
-          </span>
-        </button>
-        <div class="platform-options" *ngIf="showSortDropdown">
-          <div class="platform-option platform-default"
-               [class.selected]="sortOption === ''"
-               (click)="selectSort('')">Aucun</div>
-          <div class="platform-option" [class.selected]="sortOption === 'date-desc'" (click)="selectSort('date-desc')">Date la plus récente</div>
-          <div class="platform-option" [class.selected]="sortOption === 'date-asc'" (click)="selectSort('date-asc')">Date la plus ancienne</div>
-          <div class="platform-option" [class.selected]="sortOption === 'price-asc'" (click)="selectSort('price-asc')">Prix croissant</div>
-          <div class="platform-option" [class.selected]="sortOption === 'price-desc'" (click)="selectSort('price-desc')">Prix décroissant</div>
-          <div class="platform-option" [class.selected]="sortOption === 'alpha-asc'" (click)="selectSort('alpha-asc')">A → Z</div>
-          <div class="platform-option" [class.selected]="sortOption === 'alpha-desc'" (click)="selectSort('alpha-desc')">Z → A</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Liste des jeux -->
-  <div *ngIf="paginatedGames && paginatedGames.length > 0; else noGames" class="cards-grid">
-    <div
-      *ngFor="let game of paginatedGames"
-      class="game-card"
-      [ngClass]="getPlatformClass(game.details?.platform?.name || game.platform_id)"
-      (click)="clickGamePlat(game.id || game.game_id)"
-    >
-      <img
-        class="game-image"
-        [src]="getGameImage(game)"
-        [alt]="game.details?.game?.title || game.name || game.title || game.game_id"
-        (error)="onImageError($event)"
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Rechercher un jeu..."
+        class="search-input"
       />
-      <h3>{{ game.details?.game?.title || game.name || game.title || game.game_id }}</h3>
-      <p><strong>Plateforme :</strong> {{ game.details?.platform?.name || game.platform_id }}</p>
-      <p><strong>Appareils compatibles :</strong> {{ game.details?.game_platform?.compatible_device || game.compatible_devices }}</p>
-      <p><strong>Prix :</strong> {{ game.price }} €</p>
-      <p><strong>Genre :</strong> {{ game.details.game.genre }}</p>
-      <p><strong>PEGI :</strong> {{ game.details.game.pegi }}</p>
-      <p><strong>Contenu sensible :</strong> {{ game.details.game.sensitive_content }}</p>
-      <p><strong>Status :</strong>
-        <span [ngClass]="{'status-ok': game.details.game.status, 'status-ko': !game.details.game.status}">
-          {{ game.details.game.status ? 'Disponible' : 'Indisponible' }}
-        </span>
-      </p><div class="quantity-box">
-        <button (click)="clickMinus($event, game)">-</button>
-        <span class="quantity-label">Quantité : {{game.quantity}} </span>
-        <button (click)="clickPlus($event, game)">+</button>
-        
+    </div>
+
+    <!-- Filtres -->
+    <div class="filters-bar">
+      <!-- Plateforme -->
+      <div class="platform-filter-group">
+        <label class="platform-label">Plateforme :</label>
+        <div class="platform-dropdown" [class.open]="showPlatformDropdown">
+          <button class="platform-trigger" (click)="showPlatformDropdown = !showPlatformDropdown">
+            {{ selectedPlatform || 'Toutes les plateformes' }}
+            <span class="arrow">
+              <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
+            </span>
+          </button>
+          <div class="platform-options" *ngIf="showPlatformDropdown">
+            <div class="platform-option platform-default"
+                 [class.selected]="selectedPlatform === ''"
+                 (click)="selectPlatform('')">Toutes</div>
+            <div *ngFor="let plat of availablePlatforms"
+                 class="platform-option"
+                 [ngClass]="getPlatformClass(plat)"
+                 [class.selected]="selectedPlatform === plat"
+                 (click)="selectPlatform(plat)">
+              {{ plat }}
+            </div>
+          </div>
+        </div>
       </div>
-      <button (click)="clickToBasket($event, game)" class="add-basket">Mettre dans le panier</button>
+
+      <!-- Appareil -->
+      <div class="device-filter-group" *ngIf="availableDevices.length > 0">
+        <label class="platform-label">Appareil :</label>
+        <div class="platform-dropdown" [class.open]="showDeviceDropdown">
+          <button class="platform-trigger" (click)="showDeviceDropdown = !showDeviceDropdown">
+            {{ selectedDevice ? selectedDevice : 'Tous' }}
+            <span class="arrow">
+              <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
+            </span>
+          </button>
+          <div class="platform-options" *ngIf="showDeviceDropdown">
+            <div class="platform-option platform-default"
+                 [class.selected]="selectedDevice === ''"
+                 [ngClass]="getPlatformClass(selectedPlatform)"
+                 (click)="selectDevice('')">Tous</div>
+            <div *ngFor="let dev of availableDevices"
+                 class="platform-option"
+                 [class.selected]="selectedDevice === dev"
+                 [ngClass]="getPlatformClass(selectedPlatform)"
+                 (click)="selectDevice(dev)">
+              {{ dev }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PEGI -->
+      <div class="pegi-filter-group">
+        <label class="platform-label">PEGI :</label>
+        <div class="platform-dropdown" [class.open]="showPegiDropdown">
+          <button class="platform-trigger" (click)="showPegiDropdown = !showPegiDropdown">
+            {{ selectedPegi || 'Tous' }}
+            <span class="arrow">
+              <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
+            </span>
+          </button>
+          <div class="platform-options" *ngIf="showPegiDropdown">
+            <div class="platform-option platform-default"
+                 [class.selected]="selectedPegi === ''"
+                 (click)="selectPegi('')">Tous</div>
+            <div *ngFor="let pegi of availablePegis"
+                 class="platform-option"
+                 [ngClass]="getPegiClass(pegi)"
+                 [class.selected]="selectedPegi == pegi"
+                 (click)="selectPegi(pegi)">
+              {{ pegi }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Genre -->
+      <div class="genre-filter-group">
+        <label class="platform-label">Genre :</label>
+        <div class="platform-dropdown" [class.open]="showGenreDropdown">
+          <button class="platform-trigger" (click)="showGenreDropdown = !showGenreDropdown">
+            {{ selectedGenre || 'Tous' }}
+            <span class="arrow">
+              <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
+            </span>
+          </button>
+          <div class="platform-options" *ngIf="showGenreDropdown">
+            <div class="platform-option platform-default"
+                 [class.selected]="selectedGenre === ''"
+                 (click)="selectGenre('')">Tous</div>
+            <div *ngFor="let genre of availableGenres"
+                 class="platform-option"
+                 [class.selected]="selectedGenre === genre"
+                 (click)="selectGenre(genre)">
+              {{ genre }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenu sensible -->
+      <div class="sensitive-filter-group" *ngIf="availableSensitive.length > 0">
+        <label class="platform-label">Contenu sensible :</label>
+        <div class="platform-dropdown" [class.open]="showSensitiveDropdown">
+          <button class="platform-trigger" (click)="showSensitiveDropdown = !showSensitiveDropdown">
+            Masquer contenu sensible
+            <span class="arrow">
+              <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
+            </span>
+          </button>
+          <div class="platform-options" *ngIf="showSensitiveDropdown">
+            <label *ngFor="let sens of availableSensitive" class="platform-option" style="display: flex; align-items: center; gap: 8px;">
+              <input
+                type="checkbox"
+                [checked]="hiddenSensitive.includes(sens)"
+                (change)="toggleSensitive(sens, $event)"
+              />
+              {{ sens }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trier par -->
+      <div class="sort-filter-group">
+        <label class="platform-label">Trier par :</label>
+        <div class="platform-dropdown" [class.open]="showSortDropdown">
+          <button class="platform-trigger" (click)="showSortDropdown = !showSortDropdown">
+            {{
+              sortOption === '' ? 'Aucun' :
+              sortOption === 'date-desc' ? 'Date la plus récente' :
+              sortOption === 'date-asc' ? 'Date la plus ancienne' :
+              sortOption === 'price-asc' ? 'Prix croissant' :
+              sortOption === 'price-desc' ? 'Prix décroissant' :
+              sortOption === 'alpha-asc' ? 'A → Z' :
+              sortOption === 'alpha-desc' ? 'Z → A' : sortOption
+            }}
+            <span class="arrow">
+              <img src="assets/pppointed.svg" alt="Flèche" style="width: 18px; height: 18px; vertical-align: middle;" />
+            </span>
+          </button>
+          <div class="platform-options" *ngIf="showSortDropdown">
+            <div class="platform-option platform-default"
+                 [class.selected]="sortOption === ''"
+                 (click)="selectSort('')">Aucun</div>
+            <div class="platform-option" [class.selected]="sortOption === 'date-desc'" (click)="selectSort('date-desc')">Date la plus récente</div>
+            <div class="platform-option" [class.selected]="sortOption === 'date-asc'" (click)="selectSort('date-asc')">Date la plus ancienne</div>
+            <div class="platform-option" [class.selected]="sortOption === 'price-asc'" (click)="selectSort('price-asc')">Prix croissant</div>
+            <div class="platform-option" [class.selected]="sortOption === 'price-desc'" (click)="selectSort('price-desc')">Prix décroissant</div>
+            <div class="platform-option" [class.selected]="sortOption === 'alpha-asc'" (click)="selectSort('alpha-asc')">A → Z</div>
+            <div class="platform-option" [class.selected]="sortOption === 'alpha-desc'" (click)="selectSort('alpha-desc')">Z → A</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liste des jeux -->
+    <div *ngIf="paginatedGames && paginatedGames.length > 0; else noGames" class="cards-grid">
+      <div
+        *ngFor="let game of paginatedGames"
+        class="game-card"
+        [ngClass]="getPlatformClass(game.details?.platform?.name || game.platform_id)"
+        (click)="clickGamePlat(game.id || game.game_id)"
+      >
+        <img
+          class="game-image"
+          [src]="getGameImage(game)"
+          [alt]="game.details?.game?.title || game.name || game.title || game.game_id"
+          (error)="onImageError($event)"
+        />
+        <h3>{{ game.details?.game?.title || game.name || game.title || game.game_id }}</h3>
+        <p><strong>Plateforme :</strong> {{ game.details?.platform?.name || game.platform_id }}</p>
+        <p><strong>Appareils compatibles :</strong> {{ game.details?.game_platform?.compatible_device || game.compatible_devices }}</p>
+        <p><strong>Prix :</strong> {{ game.price }} €</p>
+        <p><strong>Genre :</strong> {{ game.details.game.genre }}</p>
+        <p><strong>PEGI :</strong> {{ game.details.game.pegi }}</p>
+        <p><strong>Contenu sensible :</strong> {{ game.details.game.sensitive_content }}</p>
+        <p><strong>Status :</strong>
+          <span [ngClass]="{'status-ok': game.details.game.status, 'status-ko': !game.details.game.status}">
+            {{ game.details.game.status ? 'Disponible' : 'Indisponible' }}
+          </span>
+        </p><div class="quantity-box">
+          <button (click)="clickMinus($event, game)">-</button>
+          <span class="quantity-label">Quantité : {{game.quantity}} </span>
+          <button (click)="clickPlus($event, game)">+</button>
+          
+        </div>
+        <button (click)="clickToBasket($event, game)" class="add-basket">Mettre dans le panier</button>
+      </div>
+    </div>
+    <ng-template #noGames>
+      <p style="text-align:center; color:#fff; margin: 40px 0;">Aucun jeu trouvé.</p>
+    </ng-template>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button
+        *ngFor="let page of getPages()"
+        [class.active]="currentPage === page"
+        (click)="setPage(page)">
+        {{ page }}
+      </button>
     </div>
   </div>
-  <ng-template #noGames>
-    <p style="text-align:center; color:#fff; margin: 40px 0;">Aucun jeu trouvé.</p>
-  </ng-template>
 
-  <!-- Pagination -->
-  <div class="pagination" *ngIf="totalPages > 1">
-    <button
-      *ngFor="let page of getPages()"
-      [class.active]="currentPage === page"
-      (click)="setPage(page)">
-      {{ page }}
-    </button>
-  </div>
+  <div class="modal-overlay" *ngIf="lougoutVisible"></div>
+  <section class="deconnexion">
+    <h2>Souhaitez-vous vous déconnecter ?</h2>
+    <div class="validation">
+      <button (click)="logout()">Oui</button>
+      <button (click)="clickCrossLougout()">Non</button>
+    </div>
+  </section>
 </div>
 
-<div class="modal-overlay" *ngIf="lougoutVisible"></div>
-<section class="deconnexion">
-  <h2>Souhaitez-vous vous déconnecter ?</h2>
-  <div class="validation">
-    <button (click)="logout()">Oui</button>
-    <button (click)="clickCrossLougout()">Non</button>
-  </div>
-</section>
-
+<!-- Loader toujours en haut -->
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="spinner"></div>
   <p>Chargement...</p>
-</div>
-
-<!-- Le reste de ta page -->
-<div *ngIf="!isLoading">
-  <!-- Ton contenu habituel ici -->
 </div>

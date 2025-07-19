@@ -36,17 +36,30 @@ header {
 .brand-title {
   position: absolute;
   left: 45%;
-  color: #fff;
   font-size: 2.1em;
   font-weight: 900;
   letter-spacing: 0.08em;
-  text-shadow: 0 2px 8px #2228;
   white-space: nowrap;
   pointer-events: auto;
+  color: #fff;
+  text-shadow: 0 2px 8px #2228;
+  transition: transform 0.2s, background 0.2s, color 0.2s;
+  /* linear-gradient seulement au hover */
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
 }
+
 .logo:hover, .brand-title:hover {
-  cursor: pointer;
+ cursor: pointer;
   transform: scale(1.05);
+  background: linear-gradient(45deg, #25bee1 0%, #CB40E3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
   transition: transform 0.2s;
 }
 .userParam {
@@ -73,6 +86,14 @@ header {
   align-items: flex-start;
   margin-top: 80px;
 }
+.order-panel-col {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  transition: box-shadow 0.2s;
+}
+
+
 .profil-container {
   max-width: 520px;
   min-width: 440px;
@@ -135,7 +156,6 @@ header {
   border-radius: 10px;
   font-weight: 700;
   font-size: 1.15em;
-  cursor: pointer;
   margin-top: 22px;
   box-shadow: 0 2px 12px #25bee140;
   transition: background 0.2s, box-shadow 0.2s;
@@ -180,31 +200,210 @@ header {
 }
 .order-card {
   margin-bottom: 22px;
-  padding: 16px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #23243a 80%, #25bee1 100%);
+  padding: 18px 16px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #25bee1 0%, #23243a 20%);
   box-shadow: 0 2px 12px #0004;
   transition: box-shadow 0.2s, background 0.2s;
 }
 .order-card:hover {
-  background: linear-gradient(90deg, #CB40E3 80%, #23243a 100%);
+  background: linear-gradient(90deg, #23243a 20%, #CB40E3 100%);
   box-shadow: 0 4px 18px #cb40e380;
 }
-.order-card strong {
-  color: #CB40E3;
-  font-size: 1.08em;
-}
-.order-card ul {
-  margin: 10px 0 0 0;
-  padding-left: 22px;
-}
-.order-card li {
-  font-size: 1em;
-  margin-bottom: 4px;
+.order-current-container {
+  max-width: 640px;
+  min-width: 440px;
+  background: linear-gradient(135deg, #23243a 60%, #25BEE1 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #000a;
+  padding: 36px 28px;
   color: #fff;
-  letter-spacing: 0.01em;
+  margin-bottom: 24px;
+  transition: box-shadow 0.2s;
 }
-/* --- Scrollbar stylée pour l'historique --- */
+.order-current-container h2 {
+  text-align: center;
+  margin-bottom: 28px;
+  color: #25bee1;
+  font-size: 2em;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 12px #25bee180;
+}
+.order-current-container:hover {
+  box-shadow: 0 12px 40px #cb40e380;
+}
+/* --- Panels Commande en cours & Historique harmonisés --- */
+.order-current-container{
+    max-width: 640px;
+  min-width: 440px;
+  background: linear-gradient(225deg, #23243a 60%, #25BEE1 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #000a;
+  padding: 36px 28px;
+  color: #fff;
+  margin-bottom: 24px;
+  transition: box-shadow 0.2s, background 0.2s;
+  position: relative;
+  
+}
+.order-history-container {
+  max-width: 640px;
+  min-width: 440px;
+  background: linear-gradient(135deg, #23243a 60%, #25BEE1 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #000a;
+  padding: 36px 28px;
+  color: #fff;
+  margin-bottom: 24px;
+  transition: box-shadow 0.2s, background 0.2s;
+  position: relative;
+}
+
+.order-current-container h2,
+.order-history-container h2 {
+  text-align: center;
+  margin-bottom: 28px;
+  color: #25bee1;
+  font-size: 2em;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 12px #25bee180;
+}
+
+.order-current-container:hover{
+  box-shadow: 0 12px 40px #cb40e380;
+  background: linear-gradient(225deg, #23243a 40%, #CB40E3 100%);
+}
+.order-history-container:hover {
+  box-shadow: 0 12px 40px #cb40e380;
+  background: linear-gradient(135deg, #23243a 40%, #CB40E3 100%);
+}
+
+/* Cards dans les panels */
+.order-history-container .order-card {
+  margin-bottom: 22px;
+  padding: 18px 16px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #25bee1 0%, #23243a 20%);
+  box-shadow: 0 2px 12px #0004;
+  transition: box-shadow 0.2s, background 0.2s;
+  border: 2px solid transparent;
+}
+.order-history-container .order-card:hover {
+  background: linear-gradient(90deg, #23243a 20%, #CB40E3 100%);
+  box-shadow: 0 4px 18px #cb40e380;
+  border: 2px solid #CB40E3;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.order-id {
+  color: #CB40E3;
+  font-size: 1.15em;
+  font-weight: bold;
+}
+.order-status {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1em;
+  text-transform: capitalize;
+  background: #23243a;
+  border: 1.5px solid #25bee1;
+}
+.status-pending {
+  background: #ffc10733;
+  color: #ffc107;
+  border-color: #ffc107;
+}
+.status-shipped {
+  background: #25bee133;
+  color: #25bee1;
+  border-color: #25bee1;
+}
+.status-delivered {
+  background: #4caf5033;
+  color: #4caf50;
+  border-color: #4caf50;
+}
+.status-cancelled {
+  background: #e74c3c33;
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+.order-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 10px;
+  font-size: 1em;
+  color: #fff;
+}
+.order-items {
+  margin-top: 10px;
+}
+.order-items ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.order-items li {
+  margin-bottom: 12px;
+  background: #23243a;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 6px #25bee120;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.item-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.game-cover {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px #0006;
+  background: #181a23;
+}
+.platform {
+  color: #25bee1;
+  font-size: 0.95em;
+  margin-left: 4px;
+}
+.item-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.98em;
+  color: #fff;
+}
+.item-desc {
+  font-size: 0.97em;
+  color: #aaa;
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.item-main strong {
+  cursor: pointer;
+  color: #25bee1;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.item-main strong:hover {
+  color: #CB40E3;
+  text-shadow: 0 2px 8px #cb40e3;
+}
+
+/* Scrollbar stylée pour l'historique */
 .order-history-container::-webkit-scrollbar {
   width: 8px;
   background: #23243a;
@@ -214,20 +413,137 @@ header {
   background: #CB40E3;
   border-radius: 8px;
 }
-/* --- Responsive --- */
+
+/* Responsive */
 @media (max-width: 900px) {
   .profil-container-wrapper {
     flex-direction: column;
     align-items: center;
     gap: 24px;
   }
+  .order-panel-col,
   .profil-container,
   .order-history-container {
     margin-top: 24px;
     max-width: 98vw;
     min-width: unset;
   }
+  .order-current-container,
+  .order-history-container {
+    max-width: 98vw;
+    min-width: unset;
+    padding: 20px 8px;
+  }
 }
+
+/* Responsive styles supplémentaires */
+@media (max-width: 700px) {
+  header {
+    padding: 0 8px;
+    height: 54px;
+  }
+  .logo {
+    height: 36px;
+    margin-right: 4px;
+  }
+  .brand-title {
+    font-size: 1.1em;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+  }
+  .userParam button,
+  .logout, .loginOrRegister, .basket, .userProfile {
+    padding: 7px 10px;
+    font-size: 0.95em;
+    margin-right: 4px;
+  }
+  .profil-container-wrapper {
+    gap: 12px;
+    margin-top: 60px;
+  }
+  .profil-container,
+  .order-history-container,
+  .order-current-container {
+    max-width: 98vw;
+    min-width: unset;
+    padding: 14px 4px;
+    border-radius: 12px;
+  }
+  .order-panel-col {
+    gap: 12px;
+  }
+  .order-card,
+  .order-history-container .order-card {
+    padding: 10px 4px;
+    font-size: 0.98em;
+  }
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .order-meta {
+    gap: 8px;
+    font-size: 0.97em;
+  }
+  .order-items ul {
+    padding-left: 8px;
+  }
+  .game-cover {
+    width: 40px;
+    height: 40px;
+  }
+  .item-main {
+    gap: 6px;
+  }
+  .profil-field input {
+    padding: 7px 8px;
+    font-size: 0.97em;
+  }
+  .profil-save-btn {
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 7px;
+  }
+}
+
+@media (max-width: 450px) {
+  .brand-title {
+    font-size: 0.85em;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .profil-container,
+  .order-history-container,
+  .order-current-container {
+    padding: 6px 1px;
+    border-radius: 7px;
+  }
+  .order-card,
+  .order-history-container .order-card {
+    padding: 6px 2px;
+    font-size: 0.93em;
+  }
+  .game-cover {
+    width: 28px;
+    height: 28px;
+  }
+  .item-main {
+    gap: 4px;
+  }
+  .profil-field input {
+    padding: 6px 7px;
+    font-size: 0.95em;
+  }
+  .profil-save-btn {
+    padding: 8px;
+    font-size: 0.95em;
+    border-radius: 6px;
+  }
+}
+
+/* Loading Spinner & Overlay */
 .loading-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -250,4 +566,27 @@ header {
 @keyframes spin {
   0% { transform: rotate(0deg);}
   100% { transform: rotate(360deg);}
+}
+.cancel-order-btn {
+  margin-top: 14px;
+  background: linear-gradient(90deg, #e74c3c 60%, #CB40E3 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 1.08em;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #e74c3c33;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  letter-spacing: 0.03em;
+  outline: none;
+  display: block;
+  width: fit-content;
+}
+
+.cancel-order-btn:hover,
+.cancel-order-btn:focus {
+  background: linear-gradient(90deg, #CB40E3 60%, #e74c3c 100%);
+  box-shadow: 0 4px 18px #cb40e380;
 }

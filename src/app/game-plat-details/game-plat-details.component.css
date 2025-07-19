@@ -32,14 +32,21 @@ header {
 .brand-title {
   position: absolute;
   left: 45%;
-  color: #fff;
   font-size: 2.1em;
   font-weight: 900;
   letter-spacing: 0.08em;
-  text-shadow: 0 2px 8px #2228;
   white-space: nowrap;
   pointer-events: auto;
+  color: #fff;
+  text-shadow: 0 2px 8px #2228;
+  transition: transform 0.2s, background 0.2s, color 0.2s;
+  /* linear-gradient seulement au hover */
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
 }
+
 .logo {
   height: 60px;
   width: auto;
@@ -49,6 +56,12 @@ header {
 .logo:hover, .brand-title:hover {
   cursor: pointer;
   transform: scale(1.05);
+  background: linear-gradient(45deg, #25bee1 0%, #CB40E3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
   transition: transform 0.2s;
 }
 .userParam {
@@ -186,6 +199,38 @@ header {
   }
   .brand-title {
     font-size: 1.3em;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 600px) {
+  .game-details-card {
+    padding: 10px 2px;
+    border-radius: 12px;
+    font-size: 0.98em;
+  }
+  .game-details-card h3 {
+    font-size: 1.2em;
+  }
+  .game-image {
+    height: 100px;
+    max-width: 90vw;
+  }
+  .brand-title {
+    font-size: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 400px) {
+  .game-details-card {
+    padding: 4px 0;
+    font-size: 0.93em;
+  }
+  .brand-title {
+    font-size: 0.85em;
   }
 }
 .loading-overlay {

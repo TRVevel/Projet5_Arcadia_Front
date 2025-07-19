@@ -18,6 +18,7 @@ export class CustomerProfilComponent {
   isLoggedIn: boolean = false;
   lougoutVisible: boolean = false;
   isLoading: boolean = true; // Loader
+  currentOrders: any[] = [];
 
   constructor(
     public requetesApiService: RequetesApiService,
@@ -29,6 +30,7 @@ export class CustomerProfilComponent {
   ngOnInit(): void {
     this.checkAuth();
     this.isLoading = true;
+
     this.requetesApiService.getCustomerProfil().subscribe({
       next: (data) => {
         this.user = data.profil;
@@ -41,9 +43,28 @@ export class CustomerProfilComponent {
       }
     });
 
-    this.requetesApiService.getCustomerOrderHistory().subscribe({
-      next: (orders) => this.orderHistory = orders,
-      error: () => this.orderHistory = []
+    // Récupère toutes les commandes livrées ou annulées pour l'historique
+    this.requetesApiService.getOrder().subscribe({
+      next: (orders) => {
+        if (Array.isArray(orders)) {
+          this.currentOrders = orders.filter((o: any) =>
+            o.status &&
+            o.status !== 'delivered' &&
+            o.status !== 'cancelled'
+          );
+          this.orderHistory = orders.filter((o: any) =>
+            o.status &&
+            (o.status === 'delivered' || o.status === 'cancelled')
+          );
+        } else {
+          this.currentOrders = [];
+          this.orderHistory = [];
+        }
+      },
+      error: () => {
+        this.currentOrders = [];
+        this.orderHistory = [];
+      }
     });
   }
 
@@ -73,5 +94,27 @@ export class CustomerProfilComponent {
   }
   clickBasket() {
     this.utilsService.clickBasket(this.router, this.isLoggedIn);
+  }
+  clickGamePlat(id: number) {
+    if (id) {
+      this.router.navigate(['/home/game-plat-details/', id]);
+    }
+  }
+
+  cancelOrder(order_id: number) {
+    if (!order_id) return;
+    if (!confirm('Voulez-vous vraiment annuler cette commande ?')) return;
+    this.isLoading = true;
+    this.requetesApiService.cancelOrder(order_id.toString()).subscribe({
+      next: () => {
+        this.currentOrders = this.currentOrders.filter(o => o.id !== order_id);
+        alert('Commande annulée avec succès.');
+        this.isLoading = false;
+      },
+      error: () => {
+        alert('Erreur lors de l\'annulation de la commande.');
+        this.isLoading = false;
+      }
+    });
   }
 }

@@ -85,6 +85,12 @@ export class RequetesApiService {
     const headers = this.getHeaders();
     return this.httpClient.get<any>(`${this.baseUrl}/orders`, { headers, withCredentials: true });
   }
+   cancelOrder(order_id: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.httpClient.delete<any>(`${this.baseUrl}/orders/${order_id}`, { headers, withCredentials: true });
+  }
+  
+  
     // Utilitaires
   private ensureToken(): void {
     const token = this.token;

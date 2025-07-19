@@ -17,7 +17,7 @@
 
 <div *ngIf="!isLoading" class="game-details-card" [ngClass]="getPlatformClass(game?.platform?.name || game?.platform_id)">
   <img
-    class="game-image"
+    class="game-image" loading="lazy"
     [src]="getGameImage(game)"
     [alt]="game?.game?.title || game?.name || game?.title || game?.game_id"
     (error)="onImageError($event)"

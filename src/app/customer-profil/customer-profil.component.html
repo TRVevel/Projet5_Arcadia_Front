@@ -1,5 +1,5 @@
 <header>
-  <img src="/assets/LogoArca.png"  alt="Logo" class="logo" (click)="onClickToHome()">
+  <img src="/assets/LogoArca.png" alt="Logo" class="logo" (click)="onClickToHome()">
   <span class="brand-title" (click)="onClickToHome()">ARCADIA</span>
   <div class="userParam">
     <button class="logout" *ngIf="isLoggedIn" (click)="clickLougout()">Se déconnecter</button>
@@ -11,8 +11,70 @@
   <div class="spinner"></div>
   <p>Chargement...</p>
 </div>
-
-<div *ngIf="!isLoading" class="profil-container-wrapper" style="display: flex; gap: 32px; justify-content: center;">
+<div *ngIf="!isLoading" class="profil-container-wrapper">
+  <div class="order-panel-col">
+    <!-- Panel Commande en cours -->
+    <div class="order-current-container">
+      <h2>Commande(s) en cours</h2>
+      <div *ngIf="currentOrders?.length; else noCurrentOrders">
+        <div
+          *ngFor="let order of currentOrders"
+          class="order-card"
+          style="margin-bottom:18px; padding:12px; border-radius:8px; background:#2a2b45;"
+        >
+          <div class="order-header">
+            <span class="order-id">#{{order.id}}</span>
+            <span class="order-status" [ngClass]="{
+              'status-pending': order.status === 'pending',
+              'status-shipped': order.status === 'shipped',
+              'status-delivered': order.status === 'delivered',
+              'status-cancelled': order.status === 'cancelled'
+            }">{{ order.status }}</span>
+          </div>
+          <div class="order-meta">
+            <span>Date : {{order.createdAt | date:'dd/MM/yyyy à HH:mm'}}</span>
+            <span>Dernière modif : {{order.updatedAt | date:'dd/MM/yyyy à HH:mm'}}</span>
+            <span>Total : {{order.total_price || order.total || 0 | currency:'EUR'}}</span>
+            <span>Adresse : {{order.adress || 'NC'}}</span>
+          </div>
+          <div *ngIf="order.items?.length" class="order-items">
+            <span>Articles :</span>
+            <ul>
+              <li *ngFor="let item of order.items">
+                <div class="item-main" 
+                     (click)="clickGamePlat(item.game_platform_id)">
+                  <img *ngIf="item.GamePlatform?.Game?.cover" [src]="'/assets/' + item.GamePlatform.Game.cover" alt="cover" class="game-cover">
+                  <div>
+                    <strong>{{item.GamePlatform?.Game?.title || 'Jeu inconnu'}}</strong>
+                    <span class="platform">({{item.GamePlatform?.Platform?.name || 'NC'}})</span>
+                  </div>
+                </div>
+                <div class="item-details">
+                  <span>Quantité : {{item.quantity}}</span>
+                  <span>Prix unitaire : {{item.GamePlatform?.price | currency:'EUR'}}</span>
+                  <span>Compatible : {{item.GamePlatform?.compatible_device || 'NC'}}</span>
+                </div>
+                <div class="item-desc">
+                  <span>Description : {{item.GamePlatform?.Game?.description || 'NC'}}</span>
+                  <span>Date de sortie : {{item.GamePlatform?.release_date | date:'dd/MM/yyyy'}}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <button
+            class="cancel-order-btn"
+            *ngIf="order.status === 'pending'"
+            (click)="cancelOrder(order.id); $event.stopPropagation();"
+          >
+            Annuler la commande
+          </button>
+        </div>
+      </div>
+      <ng-template #noCurrentOrders>
+        <p>Aucune commande en cours.</p>
+      </ng-template>
+    </div>
+  </div>
   <div class="profil-container">
     <h2>Mon Profil</h2>
     <form *ngIf="user" (ngSubmit)="onSubmit()">
@@ -32,23 +94,13 @@
         <label>Email :</label>
         <input type="email" [value]="user.email" disabled>
       </div>
-      <!-- Affiche la date si elle existe, sinon le champ calendrier -->
       <div class="profil-field">
         <label>Date de naissance :</label>
         <ng-container *ngIf="user.birthdate && user.birthdate !== null; else editableBirthdate">
-          <input
-            type="text"
-            [value]="user.birthdate | date:'dd/MM/yyyy'"
-            disabled
-          >
+          <input type="text" [value]="user.birthdate | date:'dd/MM/yyyy'" disabled>
         </ng-container>
         <ng-template #editableBirthdate>
-          <input
-            type="date"
-            [(ngModel)]="user.birthdate"
-            name="birthdate"
-            placeholder="Saisir votre date de naissance"
-          >
+          <input type="date" [(ngModel)]="user.birthdate" name="birthdate" placeholder="Saisir votre date de naissance">
         </ng-template>
       </div>
       <div class="profil-field">
@@ -69,19 +121,43 @@
       <p>Impossible de charger les informations utilisateur.</p>
     </div>
   </div>
-  <div class="order-history-container" style="background:rgba(24,26,35,0.95); border-radius:18px; box-shadow:0 4px 24px #0008; padding:32px 24px; color:#fff;">
+  <div class="order-history-container">
     <h2>Historique des commandes</h2>
     <div *ngIf="orderHistory?.length; else noOrders">
-      <div *ngFor="let order of orderHistory" class="order-card" style="margin-bottom:18px; padding:12px; border-radius:8px; background:#23243a;">
-        <div><strong>Commande #{{order.id}}</strong></div>
-        <div>Date : {{order.date | date:'dd/MM/yyyy à HH:mm'}}</div>
-        <div>Total : {{order.total | currency:'EUR'}}</div>
-        <div>Statut : {{order.status}}</div>
-        <div *ngIf="order.items?.length">
+      <div *ngFor="let order of orderHistory" class="order-card">
+        <div class="order-header">
+          <span class="order-id">#{{order.id}}</span>
+          <span class="order-status" [ngClass]="{
+            'status-delivered': order.status === 'delivered',
+            'status-cancelled': order.status === 'cancelled'
+          }">{{ order.status }}</span>
+        </div>
+        <div class="order-meta">
+          <span>Date : {{order.createdAt | date:'dd/MM/yyyy à HH:mm'}}</span>
+          <span>Dernière modif : {{order.updatedAt | date:'dd/MM/yyyy à HH:mm'}}</span>
+          <span>Total : {{order.total_price || order.total || 0 | currency:'EUR'}}</span>
+          <span>Adresse : {{order.adress || 'NC'}}</span>
+        </div>
+        <div *ngIf="order.items?.length" class="order-items">
           <span>Articles :</span>
           <ul>
             <li *ngFor="let item of order.items">
-              {{item.name}} x{{item.quantity}}
+              <div class="item-main">
+                <img *ngIf="item.GamePlatform?.Game?.cover" [src]="'/assets/' + item.GamePlatform.Game.cover" alt="cover" class="game-cover">
+                <div>
+                  <strong>{{item.GamePlatform?.Game?.title || 'Jeu inconnu'}}</strong>
+                  <span class="platform">({{item.GamePlatform?.Platform?.name || 'NC'}})</span>
+                </div>
+              </div>
+              <div class="item-details">
+                <span>Quantité : {{item.quantity}}</span>
+                <span>Prix unitaire : {{item.GamePlatform?.price | currency:'EUR'}}</span>
+                <span>Compatible : {{item.GamePlatform?.compatible_device || 'NC'}}</span>
+              </div>
+              <div class="item-desc">
+                <span>Description : {{item.GamePlatform?.Game?.description || 'NC'}}</span>
+                <span>Date de sortie : {{item.GamePlatform?.release_date | date:'dd/MM/yyyy'}}</span>
+              </div>
             </li>
           </ul>
         </div>

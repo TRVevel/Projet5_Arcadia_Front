@@ -1,6 +1,3 @@
-/* h1, h2, h3, h4, h5, p, a {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-} */
 *{
     margin:0;
     padding: 0;
@@ -38,18 +35,30 @@ header {
 .brand-title {
   position: absolute;
   left: 45%;
-  color: #fff;
   font-size: 2.1em;
   font-weight: 900;
   letter-spacing: 0.08em;
-  text-shadow: 0 2px 8px #2228;
   white-space: nowrap;
   pointer-events: auto;
+  color: #fff;
+  text-shadow: 0 2px 8px #2228;
+  transition: transform 0.2s, background 0.2s, color 0.2s;
+  /* linear-gradient seulement au hover */
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
 }
 
 .logo:hover, .brand-title:hover {
-    cursor: pointer;
-    transform: scale(1.05);
+ cursor: pointer;
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #25bee1 0%, #CB40E3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
     transition: transform 0.2s;
 }
 
@@ -284,6 +293,103 @@ footer {
 @keyframes spin {
   0% { transform: rotate(0deg);}
   100% { transform: rotate(360deg);}
+}
+/* Responsive styles */
+@media (max-width: 900px) {
+  .box {
+    width: 98vw;
+    height: 520px;
+    min-width: unset;
+    max-width: 98vw;
+  }
+  .box .register-container,
+  .box .login-container {
+    width: 50%;
+  }
+  .box form {
+    padding: 30px 16px;
+  }
+  .box form .form-group {
+    width: 90vw;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 700px) {
+  header {
+    padding: 0 8px;
+    height: 54px;
+  }
+  .logo {
+    height: 36px;
+    margin-right: 4px;
+  }
+  .brand-title {
+    font-size: 1.1em;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+  }
+  .box {
+    flex-direction: column;
+    width: 98vw;
+    height: auto;
+    min-width: unset;
+    max-width: 98vw;
+    min-height: unset;
+    padding: 2px;
+  }
+  .box .register-container,
+  .box .login-container {
+    width: 100%;
+    min-width: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+  .box form {
+    padding: 24px 6px;
+    min-width: unset;
+    max-width: 98vw;
+  }
+  .box form .form-group {
+    width: 90vw;
+    max-width: 98vw;
+  }
+  footer {
+    font-size: 9px;
+    padding: 3px 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .brand-title {
+    font-size: 0.85em;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .box {
+    border-radius: 6px;
+    padding: 0;
+  }
+  .box form {
+    padding: 10px 2px;
+    border-radius: 6px;
+  }
+  .box form .form-group {
+    width: 96vw;
+    max-width: 99vw;
+    margin: 10px 0;
+  }
+  .box form h2 {
+    font-size: 1.1em;
+  }
+  .box form button {
+    width: 100%;
+    font-size: 1em;
+    padding: 10px 0;
+  }
 }
 
 
