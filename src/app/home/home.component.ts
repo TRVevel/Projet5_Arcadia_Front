@@ -305,7 +305,7 @@ export class HomeComponent {
       this.utilsService.clickBasket(this.router, this.isLoggedIn);
       return;
     }
-    this.requeteApiService.createBasket(game.id || game.game_id, game.quantity || 1).subscribe({
+    this.requeteApiService.createBasket(game.game_id, game.quantity || 1).subscribe({
       next: () => {
         alert('Jeu ajouté au panier !');
       },
@@ -329,12 +329,6 @@ export class HomeComponent {
   onImageError(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/no-image.png';
   }
-}
-
-// --- Utilitaire cookie (si utilisé ailleurs) ---
-function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : null;
 }
 
 

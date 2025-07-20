@@ -62,11 +62,11 @@
     <form #paymentForm="ngForm" (ngSubmit)="onPay()">
       <div>
         <label for="cardName">Nom sur la carte</label>
-        <input id="cardName" name="cardName" [(ngModel)]="payment.cardName" required>
+        <input id="cardName" name="cardName" placeholder="ex: Ava Sarfez" [(ngModel)]="payment.cardName" required>
       </div>
       <div>
         <label for="cardNumber">Numéro de carte</label>
-        <input id="cardNumber" name="cardNumber" [(ngModel)]="payment.cardNumber" required maxlength="19" pattern="[0-9 ]*">
+        <input id="cardNumber" name="cardNumber" [(ngModel)]="payment.cardNumber" required placeholder="ex: 1234 5678 9..." maxlength="19" pattern="[0-9 ]*">
       </div>
       <div>
         <label for="expDate">Date d'expiration</label>
@@ -74,7 +74,7 @@
       </div>
       <div>
         <label for="cvc">CVC</label>
-        <input id="cvc" name="cvc" [(ngModel)]="payment.cvc" required maxlength="4" pattern="[0-9]*">
+        <input id="cvc" name="cvc" [(ngModel)]="payment.cvc" required placeholder="***" maxlength="4" pattern="[0-9]*">
       </div>
       <button
         type="submit"
