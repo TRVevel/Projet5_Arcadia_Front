@@ -212,7 +212,7 @@ form .form-group label {
   color: #fff;
   text-decoration: underline;
 }
-.box form button {
+.box form .btn-success {
   border: none;
   outline: none;
   padding: 11px 15px;
@@ -224,7 +224,7 @@ form .form-group label {
   width: 120px;
   margin-top: 10px;
 }
-.box form button:active {
+.box form .btn-success:active {
   opacity: 0.8;
 }
 
@@ -347,6 +347,50 @@ form .form-group label {
     font-size: 1em;
     padding: 10px 0;
   }
+}
+
+/* Ajoute ceci dans ton fichier auth.component.css */
+.password-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-group input.form-control {
+  padding-right: 40px !important; /* espace pour le bouton œil */
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 8px !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  z-index: 12 !important;
+  height: 32px !important; 
+  width: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.toggle-password-btn .fa {
+  font-size: 1.3em;
+  color: #888;
+  transition: color 0.2s;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.toggle-password-btn:hover .fa {
+  color: #25BEE1;
+}
+.fa{
+  background-color: rgba(255, 255, 255, 0) !important;
 }
 
 

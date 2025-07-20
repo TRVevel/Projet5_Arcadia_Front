@@ -16,6 +16,7 @@
     <div class="register-container">
       <form (ngSubmit)="onSubmitRegister()" #registerForm="ngForm">
         <h2>Inscription</h2>
+        <div *ngIf="errorMessages.register" style="color: #e74c3c; margin-bottom: 10px;">{{ errorMessages.register }}</div>
         <div class="form-group">
           <input type="text" id="first-name" name="prenom" [(ngModel)]="registerData.prenom" class="form-control" required>
           <label for="first-name">Prénom</label>
@@ -36,12 +37,19 @@
           <label for="adress">Adresse de livraison</label>
           <i></i>
         </div>
-        <div class="form-group">
-          <input type="password" id="password-register" name="password" [(ngModel)]="registerData.password" class="form-control" required>
+        <!-- Champ mot de passe avec bouton œil bien visible pour inscription -->
+        <div class="form-group password-group">
+          <input [type]="showRegisterPassword ? 'text' : 'password'" id="password-register" name="password" [(ngModel)]="registerData.password" class="form-control" required>
           <label for="password-register">Mot de passe</label>
+          <button type="button"
+                  (click)="showRegisterPassword = !showRegisterPassword"
+                  class="toggle-password-btn"
+                  aria-label="Afficher ou masquer le mot de passe">
+            <i class="fa" [ngClass]="showRegisterPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+          </button>
           <i></i>
         </div>
-        <button type="submit" class="btn btn-success">S'inscrire</button>
+        <button type="submit" class="btn-success">S'inscrire</button>
       </form>
     </div>
 
@@ -49,20 +57,28 @@
     <div class="login-container">
       <form (ngSubmit)="onSubmitLogin()">
         <h2>Connexion</h2>
+        <div *ngIf="errorMessages.login" style="color: #e74c3c; margin-bottom: 10px;">{{ errorMessages.login }}</div>
         <div class="form-group">
           <input type="text" id="email-login" name="email" class="form-control" [(ngModel)]="loginData.email" required>
           <label for="email-login">Email</label>
           <i></i>
         </div>
-        <div class="form-group">
-          <input type="password" id="password-login" name="password" class="form-control" [(ngModel)]="loginData.password" required>
+        <!-- Champ mot de passe avec bouton œil bien visible pour connexion -->
+        <div class="form-group password-group">
+          <input [type]="showLoginPassword ? 'text' : 'password'" id="password-login" name="password" class="form-control" [(ngModel)]="loginData.password" required>
           <label for="password-login">Mot de passe</label>
+          <button type="button"
+                  (click)="showLoginPassword = !showLoginPassword"
+                  class="toggle-password-btn"
+                  aria-label="Afficher ou masquer le mot de passe">
+            <i class="fa" [ngClass]="showLoginPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+          </button>
           <i></i>
         </div>
         <div class="links">
           <a href="#">Mot de passe oublié ?</a>
         </div>
-        <button type="submit" class="btn btn-primary">Se connecter</button>
+        <button type="submit" class="btn-success">Se connecter</button>
       </form>
     </div>
   </div>
