@@ -305,12 +305,16 @@ export class HomeComponent {
       this.utilsService.clickBasket(this.router, this.isLoggedIn);
       return;
     }
-    this.requeteApiService.createBasket(game.game_id, game.quantity || 1).subscribe({
+
+    // Envoie l'id de la plateforme de jeu et la quantité au panier
+    this.requeteApiService.createBasket(game.id, game.quantity || 1).subscribe({
       next: () => {
         alert('Jeu ajouté au panier !');
       },
-      error: () => {
-        alert('Erreur lors de l\'ajout au panier.');
+      error: (err) => {
+        const message = err?.error?.message || err?.message || 'Erreur lors de l\'ajout au panier.';
+        alert(message);
+        console.error('Erreur ajout panier:', err);
       }
     });
   }
